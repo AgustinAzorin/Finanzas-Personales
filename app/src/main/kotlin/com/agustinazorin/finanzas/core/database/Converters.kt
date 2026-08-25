@@ -2,9 +2,11 @@ package com.agustinazorin.finanzas.core.database
 
 import androidx.room.TypeConverter
 import com.agustinazorin.finanzas.engine.model.AccountType
+import com.agustinazorin.finanzas.engine.model.AssetCategory
 import com.agustinazorin.finanzas.engine.model.CaptureStatus
 import com.agustinazorin.finanzas.engine.model.CreditCardStatementStatus
 import com.agustinazorin.finanzas.engine.model.InstallmentStatus
+import com.agustinazorin.finanzas.engine.model.LiabilityType
 import com.agustinazorin.finanzas.engine.model.MemberType
 import com.agustinazorin.finanzas.engine.model.Periodicity
 import com.agustinazorin.finanzas.engine.model.RecurringType
@@ -100,4 +102,16 @@ class Converters {
     @TypeConverter
     fun toCreditCardStatementStatus(value: String?): CreditCardStatementStatus? =
         value?.let(CreditCardStatementStatus::valueOf)
+
+    @TypeConverter
+    fun fromAssetCategory(value: AssetCategory?): String? = value?.name
+
+    @TypeConverter
+    fun toAssetCategory(value: String?): AssetCategory? = value?.let(AssetCategory::valueOf)
+
+    @TypeConverter
+    fun fromLiabilityType(value: LiabilityType?): String? = value?.name
+
+    @TypeConverter
+    fun toLiabilityType(value: String?): LiabilityType? = value?.let(LiabilityType::valueOf)
 }

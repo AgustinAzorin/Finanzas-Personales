@@ -1,13 +1,17 @@
 package com.agustinazorin.finanzas.core.engine
 
 import com.agustinazorin.finanzas.engine.model.EngineAccount
+import com.agustinazorin.finanzas.engine.model.EngineAsset
 import com.agustinazorin.finanzas.engine.model.EngineInstallment
+import com.agustinazorin.finanzas.engine.model.EngineLiability
 import com.agustinazorin.finanzas.engine.model.EngineRecurringTransaction
 import com.agustinazorin.finanzas.engine.model.EngineTransaction
 import com.agustinazorin.finanzas.engine.model.EngineTransactionShare
 import com.agustinazorin.finanzas.engine.money.Money
 import com.agustinazorin.finanzas.feature.account.domain.Account
 import com.agustinazorin.finanzas.feature.installment.domain.InstallmentForSummary
+import com.agustinazorin.finanzas.feature.patrimonio.domain.Asset
+import com.agustinazorin.finanzas.feature.patrimonio.domain.Liability
 import com.agustinazorin.finanzas.feature.recurring.domain.RecurringTransaction
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
 import com.agustinazorin.finanzas.feature.transaction.domain.TransactionBeneficiary
@@ -65,5 +69,18 @@ fun RecurringTransaction.toEngineRecurringTransaction(): EngineRecurringTransact
     dueDay = dueDay,
     categoryId = categoryId,
     accountId = accountId,
+    isActive = isActive,
+)
+
+fun Asset.toEngineAsset(): EngineAsset = EngineAsset(
+    id = id,
+    currentValue = Money(currentValue, currency),
+    valuationDate = valuationDate,
+    isActive = isActive,
+)
+
+fun Liability.toEngineLiability(): EngineLiability = EngineLiability(
+    id = id,
+    outstandingAmount = Money(outstandingAmount, currency),
     isActive = isActive,
 )

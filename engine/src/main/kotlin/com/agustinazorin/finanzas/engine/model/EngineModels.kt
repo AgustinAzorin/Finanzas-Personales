@@ -98,6 +98,34 @@ data class EngineRecurringTransaction(
     val isActive: Boolean = true,
 )
 
+/**
+ * Proyección de un Asset para el motor financiero (CLAUDE.md, sección 10): un activo sin cuenta
+ * corriente propia (vehículo, inmueble, efectivo físico, etc.). A diferencia de [EngineAccount],
+ * no tiene historial de transacciones: [currentValue] es la última valuación conocida tal cual,
+ * sin importar la fecha en la que se consulte el patrimonio (ver [com.agustinazorin.finanzas.engine.networth.NetWorthCalculator]).
+ */
+data class EngineAsset(
+    val id: Long,
+    val currentValue: Money,
+    val valuationDate: LocalDate,
+    val isActive: Boolean,
+)
+
+/**
+ * Proyección de una Liability para el motor financiero (CLAUDE.md, sección 11): una obligación sin
+ * cuenta propia detrás (préstamo personal, deuda informal). [outstandingAmount] siempre es
+ * positivo; su contribución al patrimonio es negativa (ver [com.agustinazorin.finanzas.engine.networth.NetWorthCalculator]).
+ */
+data class EngineLiability(
+    val id: Long,
+    val outstandingAmount: Money,
+    val isActive: Boolean,
+) {
+    init {
+        require(outstandingAmount.minorUnits >= 0) { "El saldo pendiente de una deuda siempre es positivo." }
+    }
+}
+
 /** Saldo de una cuenta a una fecha determinada. */
 data class AccountBalance(
     val accountId: Long,

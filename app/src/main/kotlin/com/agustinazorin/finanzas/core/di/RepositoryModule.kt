@@ -18,6 +18,12 @@ import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberReposi
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
 import com.agustinazorin.finanzas.feature.installment.data.InstallmentRepositoryImpl
 import com.agustinazorin.finanzas.feature.installment.domain.InstallmentRepository
+import com.agustinazorin.finanzas.feature.patrimonio.data.AssetRepositoryImpl
+import com.agustinazorin.finanzas.feature.patrimonio.data.FinancialSnapshotRepositoryImpl
+import com.agustinazorin.finanzas.feature.patrimonio.data.LiabilityRepositoryImpl
+import com.agustinazorin.finanzas.feature.patrimonio.domain.AssetRepository
+import com.agustinazorin.finanzas.feature.patrimonio.domain.FinancialSnapshotRepository
+import com.agustinazorin.finanzas.feature.patrimonio.domain.LiabilityRepository
 import com.agustinazorin.finanzas.feature.recurring.data.RecurringTransactionRepositoryImpl
 import com.agustinazorin.finanzas.feature.recurring.domain.RecurringTransactionRepository
 import com.agustinazorin.finanzas.feature.transaction.data.TransactionRepositoryImpl
@@ -75,4 +81,16 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindInstallmentRepository(impl: InstallmentRepositoryImpl): InstallmentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAssetRepository(impl: AssetRepositoryImpl): AssetRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLiabilityRepository(impl: LiabilityRepositoryImpl): LiabilityRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFinancialSnapshotRepository(impl: FinancialSnapshotRepositoryImpl): FinancialSnapshotRepository
 }

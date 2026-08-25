@@ -70,3 +70,19 @@ enum class InstallmentStatus { PENDING, PAID, CANCELLED }
 
 /** Estado de un resumen de tarjeta de crédito (CLAUDE.md, sección 18). */
 enum class CreditCardStatementStatus { OPEN, CLOSED, PARTIALLY_PAID, PAID }
+
+/**
+ * Categoría de un [com.agustinazorin.finanzas.engine.model.EngineAsset] (CLAUDE.md, sección 10):
+ * un activo cuyo valor no corresponde a una cuenta corriente (Account). No incluye efectivo o
+ * inversiones ya modeladas como Account (CASH, INVESTMENT): esta categoría CASH es para dinero
+ * físico fuera de cualquier cuenta/billetera (ej. dólares guardados en casa).
+ */
+enum class AssetCategory { CASH, VEHICLE, REAL_ESTATE, INVESTMENT, OTHER }
+
+/**
+ * Tipo de una Liability independiente de una cuenta (CLAUDE.md, sección 11). No incluye deuda de
+ * tarjeta ni cuotas futuras: esas ya se modelan vía Account(CREDIT_CARD)/CreditCardStatement/
+ * Installment (Fase 2). Esta entidad es para obligaciones que no tienen una cuenta propia detrás,
+ * como un préstamo personal o una deuda informal.
+ */
+enum class LiabilityType { LOAN, PERSONAL_DEBT, OTHER }

@@ -112,6 +112,32 @@
     <string name="cashflow_horizon_label">Horizonte</string>
     <string name="cashflow_alert_negative">Tu liquidez proyectada cae por debajo de $0 el %1$s.</string>
 
+    <!-- Patrimonio -->
+    <string name="patrimonio_title">Patrimonio</string>
+    <string name="patrimonio_net_worth">Patrimonio neto</string>
+    <string name="patrimonio_evolution_title">Evolución</string>
+    <string name="patrimonio_assets_title">Activos</string>
+    <string name="patrimonio_liabilities_title">Pasivos</string>
+    <string name="patrimonio_assets_empty">Todavía no tenés activos cargados.</string>
+    <string name="patrimonio_liabilities_empty">Todavía no tenés pasivos cargados.</string>
+    <string name="patrimonio_add_asset">Agregar activo</string>
+    <string name="patrimonio_add_liability">Agregar pasivo</string>
+    <string name="patrimonio_item_name">Nombre</string>
+    <string name="patrimonio_current_value">Valor actual</string>
+    <string name="patrimonio_outstanding_amount">Saldo pendiente</string>
+
+    <!-- Categorías de activo -->
+    <string name="asset_category_cash">Efectivo físico</string>
+    <string name="asset_category_vehicle">Vehículo</string>
+    <string name="asset_category_real_estate">Inmueble</string>
+    <string name="asset_category_investment">Inversión</string>
+    <string name="asset_category_other">Otro</string>
+
+    <!-- Tipos de pasivo -->
+    <string name="liability_type_loan">Préstamo</string>
+    <string name="liability_type_personal_debt">Deuda personal</string>
+    <string name="liability_type_other">Otra obligación</string>
+
     <!-- Periodicidad -->
     <string name="periodicity_weekly">Semanal</string>
     <string name="periodicity_biweekly">Quincenal</string>
