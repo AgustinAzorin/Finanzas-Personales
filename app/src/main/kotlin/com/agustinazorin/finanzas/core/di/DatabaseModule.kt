@@ -16,6 +16,7 @@ import com.agustinazorin.finanzas.core.database.dao.HouseholdDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdMemberDao
 import com.agustinazorin.finanzas.core.database.dao.InstallmentDao
 import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
+import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
 import com.agustinazorin.finanzas.core.database.seedDefaultCategories
 import dagger.Module
@@ -81,6 +82,9 @@ object DatabaseModule {
 
     @Provides
     fun provideTransactionDao(db: AppDatabase): TransactionDao = db.transactionDao()
+
+    @Provides
+    fun provideTransactionBeneficiaryDao(db: AppDatabase): TransactionBeneficiaryDao = db.transactionBeneficiaryDao()
 
     @Provides
     fun provideRecurringTransactionDao(db: AppDatabase): RecurringTransactionDao = db.recurringTransactionDao()

@@ -39,6 +39,8 @@ data class EngineTransaction(
      * de la cuenta (Regla 4): la deuda se reconoce igual, de una sola vez, al momento de compra.
      */
     val hasInstallments: Boolean = false,
+    /** "Responsable" de la transacción (CLAUDE.md, sección 30): quién la pagó. Null = sin atribuir a una persona. */
+    val ownerMemberId: Long? = null,
 ) {
     init {
         require(amount.minorUnits >= 0) { "El monto de una transacción siempre es positivo; el signo lo da 'direction'." }
@@ -69,6 +71,19 @@ data class EngineInstallment(
     val amount: Money,
     val accountingDate: LocalDate,
     val status: InstallmentStatus,
+)
+
+/**
+ * Cuánto de una [EngineTransaction] le corresponde económicamente a un "Beneficiario" (CLAUDE.md,
+ * sección 30), más allá de quién la pagó. La suma de los shares de una transacción siempre es
+ * igual a su monto total: se calcula una única vez al cargar el gasto compartido (ver
+ * [com.agustinazorin.finanzas.engine.split.ExpenseSplitCalculator]) y se persiste, nunca se
+ * recalcula a partir de porcentajes en cada lectura.
+ */
+data class EngineTransactionShare(
+    val transactionId: Long,
+    val memberId: Long,
+    val shareAmount: Money,
 )
 
 data class EngineRecurringTransaction(

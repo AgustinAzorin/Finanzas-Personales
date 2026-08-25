@@ -27,6 +27,7 @@ import com.agustinazorin.finanzas.feature.category.ui.CategoryRulesScreen
 import com.agustinazorin.finanzas.feature.creditcard.ui.CreditCardDetailScreen
 import com.agustinazorin.finanzas.feature.home.ui.HomeScreen
 import com.agustinazorin.finanzas.feature.household.ui.HouseholdMembersScreen
+import com.agustinazorin.finanzas.feature.household.ui.HouseholdReportScreen
 import com.agustinazorin.finanzas.feature.income.ui.IncomeScreen
 import com.agustinazorin.finanzas.feature.more.ui.MoreScreen
 import com.agustinazorin.finanzas.feature.recurring.ui.RecurringScreen
@@ -84,6 +85,7 @@ fun FinanzasNavHost() {
             composable(SecondaryRoutes.QUICK_ADD) { QuickAddScreen(onDone = { navController.popBackStack() }) }
             composable(SecondaryRoutes.CATEGORIES) { CategoriesScreen() }
             composable(SecondaryRoutes.HOUSEHOLD_MEMBERS) { HouseholdMembersScreen() }
+            composable(SecondaryRoutes.HOUSEHOLD_REPORT) { HouseholdReportScreen() }
             composable(SecondaryRoutes.INCOME) { IncomeScreen() }
             composable(SecondaryRoutes.RECURRING) { RecurringScreen() }
             composable(SecondaryRoutes.CAPTURE_SETTINGS) { CaptureSettingsScreen() }

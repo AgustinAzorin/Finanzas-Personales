@@ -1,8 +1,11 @@
 package com.agustinazorin.finanzas.feature.transaction.data
 
+import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
+import com.agustinazorin.finanzas.core.database.entity.TransactionBeneficiaryEntity
 import com.agustinazorin.finanzas.core.database.entity.TransactionEntity
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
+import com.agustinazorin.finanzas.feature.transaction.domain.TransactionBeneficiary
 import com.agustinazorin.finanzas.feature.transaction.domain.TransactionFilter
 import com.agustinazorin.finanzas.feature.transaction.domain.TransactionRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +15,7 @@ import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
     private val dao: TransactionDao,
+    private val beneficiaryDao: TransactionBeneficiaryDao,
 ) : TransactionRepository {
 
     override fun observeRecent(householdId: Long, limit: Int): Flow<List<Transaction>> =
@@ -48,6 +52,17 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun updateTransaction(transaction: Transaction) {
         dao.update(transaction.toEntity())
     }
+
+    override suspend fun saveBeneficiaries(beneficiaries: List<TransactionBeneficiary>) {
+        if (beneficiaries.isEmpty()) return
+        beneficiaryDao.insertAll(beneficiaries.map { it.toEntity() })
+    }
+
+    override suspend fun getBeneficiaries(transactionId: Long): List<TransactionBeneficiary> =
+        beneficiaryDao.getForTransaction(transactionId).map { it.toDomain() }
+
+    override fun observeBeneficiariesForHousehold(householdId: Long, start: LocalDate, end: LocalDate): Flow<List<TransactionBeneficiary>> =
+        beneficiaryDao.observeForHousehold(householdId, start, end).map { list -> list.map { it.toDomain() } }
 }
 
 private fun TransactionEntity.toDomain() = Transaction(
@@ -64,4 +79,12 @@ private fun Transaction.toEntity() = TransactionEntity(
     categoryId = categoryId, type = type, source = source, note = note,
     reconciliationHash = reconciliationHash, linkedTransactionId = linkedTransactionId,
     status = status, hasInstallments = hasInstallments, createdAt = createdAt, updatedAt = updatedAt,
+)
+
+private fun TransactionBeneficiaryEntity.toDomain() = TransactionBeneficiary(
+    id = id, transactionId = transactionId, memberId = memberId, shareAmount = shareAmount,
+)
+
+private fun TransactionBeneficiary.toEntity() = TransactionBeneficiaryEntity(
+    id = id, transactionId = transactionId, memberId = memberId, shareAmount = shareAmount,
 )

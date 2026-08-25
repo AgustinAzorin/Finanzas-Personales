@@ -91,6 +91,16 @@
     <string name="household_members_deactivate">Desactivar</string>
     <string name="household_members_activate">Reactivar</string>
 
+    <!-- Reporte del hogar -->
+    <string name="household_report_title">Reporte del hogar</string>
+    <string name="household_report_unassigned">Hogar (sin atribuir)</string>
+    <string name="household_report_expense">Gasto atribuido</string>
+    <string name="household_report_income">Ingreso</string>
+    <string name="household_report_empty">Todavía no hay movimientos este mes.</string>
+    <string name="household_report_debts_title">Saldos entre miembros</string>
+    <string name="household_report_debts_empty">No hay saldos pendientes entre miembros este mes.</string>
+    <string name="household_report_owes">%1$s le debe a %2$s</string>
+
     <!-- Periodicidad -->
     <string name="periodicity_weekly">Semanal</string>
     <string name="periodicity_biweekly">Quincenal</string>
@@ -112,6 +122,7 @@
     <string name="transactions_filter_type">Tipo</string>
     <string name="transactions_filter_account">Cuenta</string>
     <string name="transactions_filter_category">Categoría</string>
+    <string name="transactions_filter_member">Persona</string>
     <string name="transactions_empty">No hay movimientos este mes con los filtros elegidos.</string>
 
     <!-- Alta rápida -->
@@ -122,6 +133,10 @@
     <string name="quick_add_merchant_note_toggle">Más detalles</string>
     <string name="quick_add_save">Guardar</string>
     <string name="quick_add_no_accounts">Primero creá una cuenta en la pestaña Cuentas.</string>
+    <string name="quick_add_payer">Pagó</string>
+    <string name="quick_add_payer_unassigned">Sin asignar</string>
+    <string name="quick_add_share_toggle">Compartir con…</string>
+    <string name="quick_add_share_members">Beneficiarios (se reparte en partes iguales)</string>
 
     <!-- Ingresos -->
     <string name="income_title">Ingresos</string>

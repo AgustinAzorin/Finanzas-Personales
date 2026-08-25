@@ -7,6 +7,8 @@ import com.agustinazorin.finanzas.feature.account.domain.Account
 import com.agustinazorin.finanzas.feature.account.domain.AccountRepository
 import com.agustinazorin.finanzas.feature.category.domain.Category
 import com.agustinazorin.finanzas.feature.category.domain.CategoryRepository
+import com.agustinazorin.finanzas.feature.household.domain.HouseholdMember
+import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberRepository
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
 import com.agustinazorin.finanzas.feature.transaction.domain.TransactionFilter
@@ -27,12 +29,14 @@ data class TransactionsFilterState(
     val type: TransactionType? = null,
     val accountId: Long? = null,
     val categoryId: Long? = null,
+    val memberId: Long? = null,
 )
 
 data class TransactionsUiState(
     val transactions: List<Transaction> = emptyList(),
     val accounts: List<Account> = emptyList(),
     val categories: List<Category> = emptyList(),
+    val members: List<HouseholdMember> = emptyList(),
     val filter: TransactionsFilterState = TransactionsFilterState(),
 )
 
@@ -42,6 +46,7 @@ class TransactionsViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val accountRepository: AccountRepository,
     private val categoryRepository: CategoryRepository,
+    private val householdMemberRepository: HouseholdMemberRepository,
 ) : HouseholdScopedViewModel(householdRepository) {
 
     private val filterState = MutableStateFlow(TransactionsFilterState())
@@ -58,13 +63,15 @@ class TransactionsViewModel @Inject constructor(
                         end = monthEnd,
                         accountId = filter.accountId,
                         categoryId = filter.categoryId,
+                        memberId = filter.memberId,
                         type = filter.type,
                     ),
                 ),
                 accountRepository.observeAccounts(id),
                 categoryRepository.observeAll(),
-            ) { transactions, accounts, categories ->
-                TransactionsUiState(transactions, accounts, categories, filter)
+                householdMemberRepository.observeMembers(id),
+            ) { transactions, accounts, categories, members ->
+                TransactionsUiState(transactions, accounts, categories, members, filter)
             }
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TransactionsUiState())
@@ -79,5 +86,9 @@ class TransactionsViewModel @Inject constructor(
 
     fun setCategoryFilter(categoryId: Long?) {
         filterState.value = filterState.value.copy(categoryId = categoryId)
+    }
+
+    fun setMemberFilter(memberId: Long?) {
+        filterState.value = filterState.value.copy(memberId = memberId)
     }
 }
