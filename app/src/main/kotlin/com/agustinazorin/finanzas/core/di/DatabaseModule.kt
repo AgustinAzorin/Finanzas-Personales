@@ -7,7 +7,9 @@ import com.agustinazorin.finanzas.core.database.APP_MIGRATIONS
 import com.agustinazorin.finanzas.core.database.AppDatabase
 import com.agustinazorin.finanzas.core.database.DATABASE_NAME
 import com.agustinazorin.finanzas.core.database.dao.AccountDao
+import com.agustinazorin.finanzas.core.database.dao.CapturedNotificationDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryDao
+import com.agustinazorin.finanzas.core.database.dao.CategoryRuleDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdMemberDao
 import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
@@ -79,4 +81,10 @@ object DatabaseModule {
 
     @Provides
     fun provideRecurringTransactionDao(db: AppDatabase): RecurringTransactionDao = db.recurringTransactionDao()
+
+    @Provides
+    fun provideCapturedNotificationDao(db: AppDatabase): CapturedNotificationDao = db.capturedNotificationDao()
+
+    @Provides
+    fun provideCategoryRuleDao(db: AppDatabase): CategoryRuleDao = db.categoryRuleDao()
 }

@@ -18,7 +18,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.agustinazorin.finanzas.feature.account.ui.AccountsScreen
+import com.agustinazorin.finanzas.feature.capture.ui.CaptureReviewScreen
+import com.agustinazorin.finanzas.feature.capture.ui.CaptureSettingsScreen
 import com.agustinazorin.finanzas.feature.category.ui.CategoriesScreen
+import com.agustinazorin.finanzas.feature.category.ui.CategoryRulesScreen
 import com.agustinazorin.finanzas.feature.home.ui.HomeScreen
 import com.agustinazorin.finanzas.feature.household.ui.HouseholdMembersScreen
 import com.agustinazorin.finanzas.feature.income.ui.IncomeScreen
@@ -80,6 +83,9 @@ fun FinanzasNavHost() {
             composable(SecondaryRoutes.HOUSEHOLD_MEMBERS) { HouseholdMembersScreen() }
             composable(SecondaryRoutes.INCOME) { IncomeScreen() }
             composable(SecondaryRoutes.RECURRING) { RecurringScreen() }
+            composable(SecondaryRoutes.CAPTURE_SETTINGS) { CaptureSettingsScreen() }
+            composable(SecondaryRoutes.CAPTURE_REVIEW) { CaptureReviewScreen() }
+            composable(SecondaryRoutes.CATEGORY_RULES) { CategoryRulesScreen() }
         }
     }
 }

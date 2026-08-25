@@ -4,6 +4,8 @@ import com.agustinazorin.finanzas.engine.model.TransactionDirection
 import com.agustinazorin.finanzas.engine.model.TransactionSource
 import com.agustinazorin.finanzas.engine.model.TransactionStatus
 import com.agustinazorin.finanzas.engine.model.TransactionType
+import com.agustinazorin.finanzas.engine.text.MerchantNormalizer
+import com.agustinazorin.finanzas.feature.category.domain.CategoryRuleRepository
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
 import com.agustinazorin.finanzas.feature.transaction.domain.TransactionRepository
 import java.time.Instant
@@ -12,6 +14,7 @@ import javax.inject.Inject
 
 class AddIncomeUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository,
+    private val categoryRuleRepository: CategoryRuleRepository,
 ) {
     suspend operator fun invoke(
         householdId: Long,
@@ -26,7 +29,7 @@ class AddIncomeUseCase @Inject constructor(
     ): Long {
         require(amount > 0) { "El monto de un ingreso debe ser mayor a cero." }
         val now = Instant.now()
-        return transactionRepository.createTransaction(
+        val id = transactionRepository.createTransaction(
             Transaction(
                 id = 0,
                 householdId = householdId,
@@ -48,5 +51,9 @@ class AddIncomeUseCase @Inject constructor(
                 updatedAt = now,
             ),
         )
+        if (!merchant.isNullOrBlank() && categoryId != null) {
+            categoryRuleRepository.learn(MerchantNormalizer.normalize(merchant), categoryId)
+        }
+        return id
     }
 }

@@ -141,4 +141,27 @@
 
     <!-- Más -->
     <string name="more_title">Más</string>
+
+    <!-- Captura automática -->
+    <string name="capture_settings_title">Captura automática</string>
+    <string name="capture_settings_description">Detectá gastos e ingresos a partir de las notificaciones de tus apps de pago. Nada se carga como movimiento real hasta que lo confirmes en la bandeja de revisión.</string>
+    <string name="capture_settings_permission_granted">Le diste permiso a Finanzas para leer notificaciones.</string>
+    <string name="capture_settings_permission_missing">Todavía no le diste permiso a Finanzas para leer notificaciones.</string>
+    <string name="capture_settings_open_system_settings">Abrir ajustes de notificaciones</string>
+    <string name="capture_settings_apps_title">Apps habilitadas</string>
+    <string name="capture_settings_mercado_pago">Mercado Pago</string>
+    <string name="capture_settings_custom_package_hint">Paquete de otra app (ej: com.tubanco.app)</string>
+
+    <string name="capture_review_title">Revisar capturas</string>
+    <string name="capture_review_empty">No tenés notificaciones pendientes de revisión.</string>
+    <string name="capture_review_unparsed">No pudimos interpretar el monto de esta notificación. Completalo a mano.</string>
+    <string name="capture_review_confirm">Confirmar</string>
+    <string name="capture_review_discard">Descartar</string>
+    <string name="capture_review_member">Persona</string>
+    <string name="capture_review_duplicate_dialog_title">¿Ya cargaste este gasto?</string>
+    <string name="capture_review_duplicate_dialog_message">Encontramos un movimiento parecido ya cargado. Elegí si es el mismo o si querés cargar esta captura de todos modos.</string>
+    <string name="capture_review_duplicate_create_new">Cargar de todos modos</string>
+
+    <string name="category_rules_title">Categorización automática</string>
+    <string name="category_rules_empty">Todavía no hay reglas aprendidas. Se crean solas cuando elegís una categoría para un comercio.</string>
 </resources>

@@ -29,4 +29,7 @@ object SecondaryRoutes {
     const val HOUSEHOLD_MEMBERS = "household_members"
     const val INCOME = "income"
     const val RECURRING = "recurring"
+    const val CAPTURE_SETTINGS = "capture_settings"
+    const val CAPTURE_REVIEW = "capture_review"
+    const val CATEGORY_RULES = "category_rules"
 }

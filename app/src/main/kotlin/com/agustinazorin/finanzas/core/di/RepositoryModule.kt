@@ -2,8 +2,12 @@ package com.agustinazorin.finanzas.core.di
 
 import com.agustinazorin.finanzas.feature.account.data.AccountRepositoryImpl
 import com.agustinazorin.finanzas.feature.account.domain.AccountRepository
+import com.agustinazorin.finanzas.feature.capture.data.CapturedNotificationRepositoryImpl
+import com.agustinazorin.finanzas.feature.capture.domain.CapturedNotificationRepository
 import com.agustinazorin.finanzas.feature.category.data.CategoryRepositoryImpl
+import com.agustinazorin.finanzas.feature.category.data.CategoryRuleRepositoryImpl
 import com.agustinazorin.finanzas.feature.category.domain.CategoryRepository
+import com.agustinazorin.finanzas.feature.category.domain.CategoryRuleRepository
 import com.agustinazorin.finanzas.feature.household.data.HouseholdMemberRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.data.HouseholdRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberRepository
@@ -45,4 +49,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindRecurringTransactionRepository(impl: RecurringTransactionRepositoryImpl): RecurringTransactionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCapturedNotificationRepository(impl: CapturedNotificationRepositoryImpl): CapturedNotificationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryRuleRepository(impl: CategoryRuleRepositoryImpl): CategoryRuleRepository
 }

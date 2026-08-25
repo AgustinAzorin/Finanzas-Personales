@@ -4,10 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.agustinazorin.finanzas.core.preferences.QuickAddPreferences
 import com.agustinazorin.finanzas.core.ui.HouseholdScopedViewModel
 import com.agustinazorin.finanzas.engine.model.TransactionType
+import com.agustinazorin.finanzas.engine.text.MerchantNormalizer
 import com.agustinazorin.finanzas.feature.account.domain.Account
 import com.agustinazorin.finanzas.feature.account.domain.AccountRepository
 import com.agustinazorin.finanzas.feature.category.domain.Category
 import com.agustinazorin.finanzas.feature.category.domain.CategoryRepository
+import com.agustinazorin.finanzas.feature.category.domain.CategoryRuleRepository
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
 import com.agustinazorin.finanzas.feature.transaction.domain.usecase.AddExpenseUseCase
 import com.agustinazorin.finanzas.feature.transaction.domain.usecase.AddIncomeUseCase
@@ -40,6 +42,7 @@ class QuickAddViewModel @Inject constructor(
     private val addIncomeUseCase: AddIncomeUseCase,
     private val addTransferUseCase: AddTransferUseCase,
     private val quickAddPreferences: QuickAddPreferences,
+    private val categoryRuleRepository: CategoryRuleRepository,
 ) : HouseholdScopedViewModel(householdRepository) {
 
     val options: StateFlow<QuickAddOptions> = householdId.filterNotNull().flatMapLatest { id ->
@@ -70,6 +73,10 @@ class QuickAddViewModel @Inject constructor(
             _saved.tryEmit(Unit)
         }
     }
+
+    /** Sugerencia de categoría por comercio, aprendida de correcciones anteriores (CLAUDE.md, sección 39). */
+    suspend fun suggestCategoryId(merchant: String): Long? =
+        categoryRuleRepository.suggestCategory(MerchantNormalizer.normalize(merchant))
 
     fun saveTransfer(fromAccountId: Long, toAccountId: Long, amount: Long, note: String?) {
         viewModelScope.launch {

@@ -2,6 +2,7 @@ package com.agustinazorin.finanzas.core.database
 
 import androidx.room.TypeConverter
 import com.agustinazorin.finanzas.engine.model.AccountType
+import com.agustinazorin.finanzas.engine.model.CaptureStatus
 import com.agustinazorin.finanzas.engine.model.MemberType
 import com.agustinazorin.finanzas.engine.model.Periodicity
 import com.agustinazorin.finanzas.engine.model.RecurringType
@@ -78,4 +79,10 @@ class Converters {
 
     @TypeConverter
     fun toPeriodicity(value: String?): Periodicity? = value?.let(Periodicity::valueOf)
+
+    @TypeConverter
+    fun fromCaptureStatus(value: CaptureStatus?): String? = value?.name
+
+    @TypeConverter
+    fun toCaptureStatus(value: String?): CaptureStatus? = value?.let(CaptureStatus::valueOf)
 }

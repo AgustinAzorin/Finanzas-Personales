@@ -50,3 +50,17 @@ enum class Periodicity { WEEKLY, BIWEEKLY, MONTHLY, ANNUAL }
  * Nunca se debe mezclar dinero real (ACTUAL/CONFIRMED) con estimaciones (COMMITTED/ESTIMATED).
  */
 enum class Certainty { ACTUAL, CONFIRMED, COMMITTED, ESTIMATED }
+
+/**
+ * Estado de revisión de una notificación capturada automáticamente (CLAUDE.md, sección 37).
+ * Es independiente de [TransactionStatus]: una captura recién llegada nunca es todavía una
+ * Transaction real, sólo lo pasa a ser cuando el usuario la confirma.
+ */
+enum class CaptureStatus { PENDING_REVIEW, CONFIRMED, DISCARDED, DUPLICATE }
+
+/**
+ * Qué tan segura es una coincidencia entre una nueva captura y una transacción ya existente
+ * durante la conciliación (CLAUDE.md, sección 38). Declarado en orden ascendente de confianza
+ * para poder ordenar candidatos por [Enum.ordinal] de mayor a menor certeza.
+ */
+enum class MatchConfidence { POSSIBLE, LIKELY, EXACT }

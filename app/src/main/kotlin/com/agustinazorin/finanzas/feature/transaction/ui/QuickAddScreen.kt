@@ -153,6 +153,13 @@ fun QuickAddScreen(onDone: () -> Unit, viewModel: QuickAddViewModel = hiltViewMo
                     label = { Text(stringResource(R.string.common_merchant)) },
                     modifier = Modifier.fillMaxWidth(),
                 )
+                // Sugiere la categoría aprendida para este comercio, sin pisar una elección manual (CLAUDE.md, sección 39).
+                LaunchedEffect(merchant) {
+                    if (merchant.isNotBlank() && category == null) {
+                        val suggestedId = viewModel.suggestCategoryId(merchant)
+                        category = options.categories.firstOrNull { it.id == suggestedId }
+                    }
+                }
             }
             item {
                 OutlinedTextField(

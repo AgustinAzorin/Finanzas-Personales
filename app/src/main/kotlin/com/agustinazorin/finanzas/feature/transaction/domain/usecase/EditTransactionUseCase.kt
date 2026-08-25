@@ -1,5 +1,7 @@
 package com.agustinazorin.finanzas.feature.transaction.domain.usecase
 
+import com.agustinazorin.finanzas.engine.text.MerchantNormalizer
+import com.agustinazorin.finanzas.feature.category.domain.CategoryRuleRepository
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
 import com.agustinazorin.finanzas.feature.transaction.domain.TransactionRepository
 import java.time.Instant
@@ -12,6 +14,7 @@ import javax.inject.Inject
  */
 class EditTransactionUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository,
+    private val categoryRuleRepository: CategoryRuleRepository,
 ) {
     suspend operator fun invoke(
         transactionId: Long,
@@ -30,5 +33,9 @@ class EditTransactionUseCase @Inject constructor(
             updatedAt = Instant.now(),
         )
         transactionRepository.updateTransaction(updated)
+        // Una corrección manual de categoría es exactamente la señal de aprendizaje de CLAUDE.md sección 39.
+        if (!merchant.isNullOrBlank() && categoryId != null) {
+            categoryRuleRepository.learn(MerchantNormalizer.normalize(merchant), categoryId)
+        }
     }
 }

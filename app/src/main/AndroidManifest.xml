@@ -19,6 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Captura automática (CLAUDE.md, sección 37). El usuario tiene que habilitarlo a mano
+             desde Ajustes del sistema (Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS); Android
+             exige exactamente este permiso y esta acción para todo NotificationListenerService. -->
+        <service
+            android:name=".core.capture.FinanzasNotificationListenerService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
