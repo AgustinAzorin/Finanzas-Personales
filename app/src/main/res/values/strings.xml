@@ -68,6 +68,7 @@
     <string name="accounts_empty">Todavía no cargaste ninguna cuenta. Tocá + para agregar la primera.</string>
     <string name="accounts_deactivate">Desactivar</string>
     <string name="accounts_activate">Reactivar</string>
+    <string name="credit_card_view_action">Ver tarjeta</string>
 
     <!-- Categorías -->
     <string name="categories_title">Categorías</string>
@@ -164,4 +165,26 @@
 
     <string name="category_rules_title">Categorización automática</string>
     <string name="category_rules_empty">Todavía no hay reglas aprendidas. Se crean solas cuando elegís una categoría para un comercio.</string>
+
+    <!-- Tarjetas de crédito -->
+    <string name="credit_card_setup_title">Configurar tarjeta</string>
+    <string name="credit_card_setup_description">Necesitamos el día de cierre y de vencimiento para poder calcular tus resúmenes y tu crédito disponible.</string>
+    <string name="credit_card_closing_day">Día de cierre (1-31)</string>
+    <string name="credit_card_due_day">Día de vencimiento (1-31)</string>
+    <string name="credit_card_limit">Límite</string>
+    <string name="credit_card_available">Disponible</string>
+    <string name="credit_card_debt">Debés</string>
+    <string name="credit_card_add_purchase">Cargar compra</string>
+    <string name="credit_card_installments_count">Cantidad de cuotas</string>
+    <string name="credit_card_statements_title">Resúmenes</string>
+    <string name="credit_card_statement_due">Vence el %1$s</string>
+    <string name="credit_card_pay_statement">Pagar resumen</string>
+    <string name="credit_card_pay_from">Pagar desde</string>
+    <string name="credit_card_upcoming_installments_title">Próximas cuotas</string>
+    <string name="credit_card_no_upcoming_installments">No tenés cuotas pendientes.</string>
+    <string name="credit_card_installment_label">Cuota %1$d/%2$d</string>
+    <string name="credit_card_statement_status_open">Abierto</string>
+    <string name="credit_card_statement_status_closed">Cerrado</string>
+    <string name="credit_card_statement_status_partially_paid">Pagado parcialmente</string>
+    <string name="credit_card_statement_status_paid">Pagado</string>
 </resources>

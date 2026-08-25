@@ -38,9 +38,10 @@ import com.agustinazorin.finanzas.core.ui.format.label
 import com.agustinazorin.finanzas.core.ui.format.parseMoneyInput
 import com.agustinazorin.finanzas.engine.model.AccountType
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMember
+import com.agustinazorin.finanzas.navigation.SecondaryRoutes
 
 @Composable
-fun AccountsScreen(viewModel: AccountsViewModel = hiltViewModel()) {
+fun AccountsScreen(onNavigate: (String) -> Unit = {}, viewModel: AccountsViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsState()
     var showAddDialog by remember { mutableStateOf(false) }
 
@@ -60,7 +61,12 @@ fun AccountsScreen(viewModel: AccountsViewModel = hiltViewModel()) {
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(state.accounts, key = { it.account.id }) { accountUi ->
-                    AccountRow(accountUi, state.members, onToggleActive = { viewModel.setAccountActive(accountUi.account.id, it) })
+                    AccountRow(
+                        accountUi,
+                        state.members,
+                        onToggleActive = { viewModel.setAccountActive(accountUi.account.id, it) },
+                        onViewCreditCard = { onNavigate(SecondaryRoutes.creditCardDetail(accountUi.account.id)) },
+                    )
                 }
             }
         }
@@ -79,7 +85,12 @@ fun AccountsScreen(viewModel: AccountsViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun AccountRow(accountUi: AccountUi, members: List<HouseholdMember>, onToggleActive: (Boolean) -> Unit) {
+private fun AccountRow(
+    accountUi: AccountUi,
+    members: List<HouseholdMember>,
+    onToggleActive: (Boolean) -> Unit,
+    onViewCreditCard: () -> Unit,
+) {
     val account = accountUi.account
     val ownerName = members.firstOrNull { it.id == account.ownerMemberId }?.name
         ?: stringResource(R.string.accounts_owner_household)
@@ -97,6 +108,11 @@ private fun AccountRow(accountUi: AccountUi, members: List<HouseholdMember>, onT
                         stringResource(if (account.isActive) R.string.accounts_deactivate else R.string.accounts_activate),
                         style = MaterialTheme.typography.labelLarge,
                     )
+                }
+                if (account.type == AccountType.CREDIT_CARD) {
+                    TextButton(onClick = onViewCreditCard, contentPadding = PaddingValues(0.dp)) {
+                        Text(stringResource(R.string.credit_card_view_action), style = MaterialTheme.typography.labelLarge)
+                    }
                 }
             }
             MoneyText(accountUi.balance.minorUnits, accountUi.balance.currency)

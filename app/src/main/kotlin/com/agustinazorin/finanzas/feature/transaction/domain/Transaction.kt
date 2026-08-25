@@ -25,6 +25,8 @@ data class Transaction(
     val reconciliationHash: String?,
     val linkedTransactionId: Long?,
     val status: TransactionStatus,
+    /** true si esta compra tiene cuotas asociadas (Regla 3, CLAUDE.md sección 7); ver [com.agustinazorin.finanzas.core.database.entity.TransactionEntity.hasInstallments]. */
+    val hasInstallments: Boolean = false,
     val createdAt: Instant,
     val updatedAt: Instant,
 )

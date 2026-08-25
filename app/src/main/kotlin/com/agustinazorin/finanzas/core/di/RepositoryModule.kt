@@ -8,10 +8,16 @@ import com.agustinazorin.finanzas.feature.category.data.CategoryRepositoryImpl
 import com.agustinazorin.finanzas.feature.category.data.CategoryRuleRepositoryImpl
 import com.agustinazorin.finanzas.feature.category.domain.CategoryRepository
 import com.agustinazorin.finanzas.feature.category.domain.CategoryRuleRepository
+import com.agustinazorin.finanzas.feature.creditcard.data.CreditCardRepositoryImpl
+import com.agustinazorin.finanzas.feature.creditcard.data.CreditCardStatementRepositoryImpl
+import com.agustinazorin.finanzas.feature.creditcard.domain.CreditCardRepository
+import com.agustinazorin.finanzas.feature.creditcard.domain.CreditCardStatementRepository
 import com.agustinazorin.finanzas.feature.household.data.HouseholdMemberRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.data.HouseholdRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberRepository
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
+import com.agustinazorin.finanzas.feature.installment.data.InstallmentRepositoryImpl
+import com.agustinazorin.finanzas.feature.installment.domain.InstallmentRepository
 import com.agustinazorin.finanzas.feature.recurring.data.RecurringTransactionRepositoryImpl
 import com.agustinazorin.finanzas.feature.recurring.domain.RecurringTransactionRepository
 import com.agustinazorin.finanzas.feature.transaction.data.TransactionRepositoryImpl
@@ -57,4 +63,16 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindCategoryRuleRepository(impl: CategoryRuleRepositoryImpl): CategoryRuleRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCreditCardRepository(impl: CreditCardRepositoryImpl): CreditCardRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCreditCardStatementRepository(impl: CreditCardStatementRepositoryImpl): CreditCardStatementRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindInstallmentRepository(impl: InstallmentRepositoryImpl): InstallmentRepository
 }

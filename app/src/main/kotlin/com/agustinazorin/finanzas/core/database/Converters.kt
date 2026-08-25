@@ -3,6 +3,8 @@ package com.agustinazorin.finanzas.core.database
 import androidx.room.TypeConverter
 import com.agustinazorin.finanzas.engine.model.AccountType
 import com.agustinazorin.finanzas.engine.model.CaptureStatus
+import com.agustinazorin.finanzas.engine.model.CreditCardStatementStatus
+import com.agustinazorin.finanzas.engine.model.InstallmentStatus
 import com.agustinazorin.finanzas.engine.model.MemberType
 import com.agustinazorin.finanzas.engine.model.Periodicity
 import com.agustinazorin.finanzas.engine.model.RecurringType
@@ -85,4 +87,17 @@ class Converters {
 
     @TypeConverter
     fun toCaptureStatus(value: String?): CaptureStatus? = value?.let(CaptureStatus::valueOf)
+
+    @TypeConverter
+    fun fromInstallmentStatus(value: InstallmentStatus?): String? = value?.name
+
+    @TypeConverter
+    fun toInstallmentStatus(value: String?): InstallmentStatus? = value?.let(InstallmentStatus::valueOf)
+
+    @TypeConverter
+    fun fromCreditCardStatementStatus(value: CreditCardStatementStatus?): String? = value?.name
+
+    @TypeConverter
+    fun toCreditCardStatementStatus(value: String?): CreditCardStatementStatus? =
+        value?.let(CreditCardStatementStatus::valueOf)
 }

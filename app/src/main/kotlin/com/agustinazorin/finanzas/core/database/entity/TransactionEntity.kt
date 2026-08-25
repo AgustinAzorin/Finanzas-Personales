@@ -83,6 +83,14 @@ data class TransactionEntity(
     val reconciliationHash: String?,
     val linkedTransactionId: Long?,
     val status: TransactionStatus,
+    /**
+     * true cuando esta es la compra "padre" de una compra con tarjeta en cuotas (Regla 3,
+     * CLAUDE.md sección 7 y 16): existen filas en `installments` con `transactionId = id`, y el
+     * gasto económico de esta transacción se cuenta a través de esas cuotas, nunca por esta
+     * fecha. No afecta el saldo de la cuenta (Regla 4): la deuda se reconoce igual, de una sola
+     * vez, al momento de la compra.
+     */
+    val hasInstallments: Boolean = false,
     val createdAt: Instant,
     val updatedAt: Instant,
 )

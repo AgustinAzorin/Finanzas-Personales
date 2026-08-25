@@ -106,5 +106,5 @@ private fun TransactionEntity.toTransactionDomain() = Transaction(
     amount = amount, currency = currency, direction = direction, date = date, merchant = merchant,
     categoryId = categoryId, type = type, source = source, note = note,
     reconciliationHash = reconciliationHash, linkedTransactionId = linkedTransactionId,
-    status = status, createdAt = createdAt, updatedAt = updatedAt,
+    status = status, hasInstallments = hasInstallments, createdAt = createdAt, updatedAt = updatedAt,
 )

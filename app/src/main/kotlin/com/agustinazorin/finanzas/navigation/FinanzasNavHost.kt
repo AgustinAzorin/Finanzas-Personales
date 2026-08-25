@@ -13,15 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.agustinazorin.finanzas.feature.account.ui.AccountsScreen
 import com.agustinazorin.finanzas.feature.capture.ui.CaptureReviewScreen
 import com.agustinazorin.finanzas.feature.capture.ui.CaptureSettingsScreen
 import com.agustinazorin.finanzas.feature.category.ui.CategoriesScreen
 import com.agustinazorin.finanzas.feature.category.ui.CategoryRulesScreen
+import com.agustinazorin.finanzas.feature.creditcard.ui.CreditCardDetailScreen
 import com.agustinazorin.finanzas.feature.home.ui.HomeScreen
 import com.agustinazorin.finanzas.feature.household.ui.HouseholdMembersScreen
 import com.agustinazorin.finanzas.feature.income.ui.IncomeScreen
@@ -74,7 +77,7 @@ fun FinanzasNavHost() {
         ) {
             composable(FinanzasDestination.Home.route) { HomeScreen() }
             composable(FinanzasDestination.Transactions.route) { TransactionsScreen() }
-            composable(FinanzasDestination.Accounts.route) { AccountsScreen() }
+            composable(FinanzasDestination.Accounts.route) { AccountsScreen(onNavigate = { navController.navigate(it) }) }
             composable(FinanzasDestination.Summary.route) { SummaryScreen() }
             composable(FinanzasDestination.More.route) { MoreScreen(onNavigate = { navController.navigate(it) }) }
 
@@ -86,6 +89,10 @@ fun FinanzasNavHost() {
             composable(SecondaryRoutes.CAPTURE_SETTINGS) { CaptureSettingsScreen() }
             composable(SecondaryRoutes.CAPTURE_REVIEW) { CaptureReviewScreen() }
             composable(SecondaryRoutes.CATEGORY_RULES) { CategoryRulesScreen() }
+            composable(
+                SecondaryRoutes.CREDIT_CARD_DETAIL_PATTERN,
+                arguments = listOf(navArgument("accountId") { type = NavType.LongType }),
+            ) { CreditCardDetailScreen() }
         }
     }
 }

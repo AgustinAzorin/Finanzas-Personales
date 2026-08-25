@@ -32,4 +32,8 @@ object SecondaryRoutes {
     const val CAPTURE_SETTINGS = "capture_settings"
     const val CAPTURE_REVIEW = "capture_review"
     const val CATEGORY_RULES = "category_rules"
+
+    private const val CREDIT_CARD_DETAIL_BASE = "credit_card_detail"
+    const val CREDIT_CARD_DETAIL_PATTERN = "$CREDIT_CARD_DETAIL_BASE/{accountId}"
+    fun creditCardDetail(accountId: Long) = "$CREDIT_CARD_DETAIL_BASE/$accountId"
 }

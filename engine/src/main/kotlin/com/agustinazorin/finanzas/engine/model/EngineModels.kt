@@ -31,6 +31,14 @@ data class EngineTransaction(
     val status: TransactionStatus,
     val categoryId: Long? = null,
     val linkedTransactionId: Long? = null,
+    /**
+     * true cuando esta es la compra "padre" de una compra en cuotas (Regla 3, CLAUDE.md
+     * sección 7): su gasto económico ya no se cuenta acá, sino a través de sus
+     * [EngineInstallment] correspondientes, cada una imputada a su propio período. Ver
+     * [com.agustinazorin.finanzas.engine.metrics.PeriodSummaryCalculator]. No afecta el saldo
+     * de la cuenta (Regla 4): la deuda se reconoce igual, de una sola vez, al momento de compra.
+     */
+    val hasInstallments: Boolean = false,
 ) {
     init {
         require(amount.minorUnits >= 0) { "El monto de una transacción siempre es positivo; el signo lo da 'direction'." }
@@ -48,6 +56,20 @@ data class EngineTransaction(
     val isEconomicFlow: Boolean
         get() = type == TransactionType.EXPENSE || type == TransactionType.INCOME
 }
+
+/**
+ * Proyección de una cuota (Installment) para el motor financiero (CLAUDE.md, sección 16).
+ * [type] se hereda de la Transaction "padre" (siempre EXPENSE o INCOME: una cuota nunca es una
+ * transferencia ni un ajuste).
+ */
+data class EngineInstallment(
+    val id: Long,
+    val transactionId: Long,
+    val type: TransactionType,
+    val amount: Money,
+    val accountingDate: LocalDate,
+    val status: InstallmentStatus,
+)
 
 data class EngineRecurringTransaction(
     val id: Long,

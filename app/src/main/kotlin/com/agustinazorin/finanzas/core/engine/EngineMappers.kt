@@ -1,10 +1,12 @@
 package com.agustinazorin.finanzas.core.engine
 
 import com.agustinazorin.finanzas.engine.model.EngineAccount
+import com.agustinazorin.finanzas.engine.model.EngineInstallment
 import com.agustinazorin.finanzas.engine.model.EngineRecurringTransaction
 import com.agustinazorin.finanzas.engine.model.EngineTransaction
 import com.agustinazorin.finanzas.engine.money.Money
 import com.agustinazorin.finanzas.feature.account.domain.Account
+import com.agustinazorin.finanzas.feature.installment.domain.InstallmentForSummary
 import com.agustinazorin.finanzas.feature.recurring.domain.RecurringTransaction
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
 
@@ -32,6 +34,16 @@ fun Transaction.toEngineTransaction(): EngineTransaction = EngineTransaction(
     status = status,
     categoryId = categoryId,
     linkedTransactionId = linkedTransactionId,
+    hasInstallments = hasInstallments,
+)
+
+fun InstallmentForSummary.toEngineInstallment(): EngineInstallment = EngineInstallment(
+    id = installment.id,
+    transactionId = installment.transactionId,
+    type = type,
+    amount = Money(installment.amount, currency),
+    accountingDate = installment.accountingDate,
+    status = installment.status,
 )
 
 fun RecurringTransaction.toEngineRecurringTransaction(): EngineRecurringTransaction = EngineRecurringTransaction(

@@ -64,3 +64,9 @@ enum class CaptureStatus { PENDING_REVIEW, CONFIRMED, DISCARDED, DUPLICATE }
  * para poder ordenar candidatos por [Enum.ordinal] de mayor a menor certeza.
  */
 enum class MatchConfidence { POSSIBLE, LIKELY, EXACT }
+
+/** Estado de una cuota de una compra en cuotas (CLAUDE.md, sección 16). */
+enum class InstallmentStatus { PENDING, PAID, CANCELLED }
+
+/** Estado de un resumen de tarjeta de crédito (CLAUDE.md, sección 18). */
+enum class CreditCardStatementStatus { OPEN, CLOSED, PARTIALLY_PAID, PAID }

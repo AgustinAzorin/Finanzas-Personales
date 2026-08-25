@@ -10,8 +10,11 @@ import com.agustinazorin.finanzas.core.database.dao.AccountDao
 import com.agustinazorin.finanzas.core.database.dao.CapturedNotificationDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryRuleDao
+import com.agustinazorin.finanzas.core.database.dao.CreditCardDao
+import com.agustinazorin.finanzas.core.database.dao.CreditCardStatementDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdMemberDao
+import com.agustinazorin.finanzas.core.database.dao.InstallmentDao
 import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
 import com.agustinazorin.finanzas.core.database.seedDefaultCategories
@@ -87,4 +90,13 @@ object DatabaseModule {
 
     @Provides
     fun provideCategoryRuleDao(db: AppDatabase): CategoryRuleDao = db.categoryRuleDao()
+
+    @Provides
+    fun provideCreditCardDao(db: AppDatabase): CreditCardDao = db.creditCardDao()
+
+    @Provides
+    fun provideCreditCardStatementDao(db: AppDatabase): CreditCardStatementDao = db.creditCardStatementDao()
+
+    @Provides
+    fun provideInstallmentDao(db: AppDatabase): InstallmentDao = db.installmentDao()
 }
