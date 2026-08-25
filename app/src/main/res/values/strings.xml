@@ -101,6 +101,17 @@
     <string name="household_report_debts_empty">No hay saldos pendientes entre miembros este mes.</string>
     <string name="household_report_owes">%1$s le debe a %2$s</string>
 
+    <!-- Comprometido -->
+    <string name="committed_title">Comprometido</string>
+    <string name="committed_horizon_days">%1$d días</string>
+    <string name="committed_horizon_label">Ver detalle de</string>
+    <string name="committed_empty">No tenés compromisos en este período.</string>
+
+    <!-- Flujo -->
+    <string name="cashflow_title">Flujo</string>
+    <string name="cashflow_horizon_label">Horizonte</string>
+    <string name="cashflow_alert_negative">Tu liquidez proyectada cae por debajo de $0 el %1$s.</string>
+
     <!-- Periodicidad -->
     <string name="periodicity_weekly">Semanal</string>
     <string name="periodicity_biweekly">Quincenal</string>

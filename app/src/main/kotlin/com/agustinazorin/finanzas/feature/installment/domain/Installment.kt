@@ -24,5 +24,6 @@ interface InstallmentRepository {
     fun observeByTransaction(transactionId: Long): Flow<List<Installment>>
     fun observeUpcoming(creditCardAccountId: Long): Flow<List<Installment>>
     fun observeAllUpTo(householdId: Long, asOf: LocalDate): Flow<List<InstallmentForSummary>>
+    fun observeUpcomingForHousehold(householdId: Long): Flow<List<InstallmentForSummary>>
     suspend fun createInstallments(installments: List<Installment>)
 }

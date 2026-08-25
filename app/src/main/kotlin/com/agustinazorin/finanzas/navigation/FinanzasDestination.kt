@@ -28,6 +28,8 @@ object SecondaryRoutes {
     const val CATEGORIES = "categories"
     const val HOUSEHOLD_MEMBERS = "household_members"
     const val HOUSEHOLD_REPORT = "household_report"
+    const val COMMITTED = "committed"
+    const val CASH_FLOW = "cash_flow"
     const val INCOME = "income"
     const val RECURRING = "recurring"
     const val CAPTURE_SETTINGS = "capture_settings"

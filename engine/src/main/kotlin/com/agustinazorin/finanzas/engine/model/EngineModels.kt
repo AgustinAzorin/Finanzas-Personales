@@ -132,3 +132,31 @@ data class UpcomingCommitment(
     val categoryId: Long?,
     val certainty: Certainty,
 )
+
+/**
+ * Un evento de flujo de caja futuro (CLAUDE.md, sección 36): una entrada o salida de dinero
+ * todavía no ocurrida, con su nivel de certeza. Fuente-agnóstico a propósito: puede originarse
+ * en un movimiento recurrente, una cuota pendiente, etc.
+ *
+ * @param amount con signo: negativo = salida de dinero, positivo = entrada.
+ */
+data class CashFlowEvent(
+    val date: LocalDate,
+    val label: String,
+    val amount: Money,
+    val certainty: Certainty,
+)
+
+/**
+ * Un punto de la línea de tiempo de flujo de caja proyectado (CLAUDE.md, sección 26): el saldo
+ * resultante después de aplicar un evento, en orden cronológico.
+ *
+ * @param delta null únicamente en el primer punto (el saldo actual, sin evento asociado).
+ */
+data class CashFlowPoint(
+    val date: LocalDate,
+    val label: String,
+    val delta: Money?,
+    val balance: Money,
+    val certainty: Certainty,
+)
