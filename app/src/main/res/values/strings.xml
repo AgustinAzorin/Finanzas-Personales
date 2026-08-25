@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Finanzas</string>
+
+    <!-- Navegación -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_transactions">Movimientos</string>
+    <string name="nav_accounts">Cuentas</string>
+    <string name="nav_summary">Resumen</string>
+    <string name="nav_more">Más</string>
+
+    <!-- Comunes -->
+    <string name="common_save">Guardar</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_add">Agregar</string>
+    <string name="common_edit">Editar</string>
+    <string name="common_delete">Eliminar</string>
+    <string name="common_optional">Opcional</string>
+    <string name="common_amount">Monto</string>
+    <string name="common_date">Fecha</string>
+    <string name="common_category">Categoría</string>
+    <string name="common_type">Tipo</string>
+    <string name="common_account">Cuenta</string>
+    <string name="common_note">Nota</string>
+    <string name="common_merchant">Comercio</string>
+    <string name="common_none">Ninguna</string>
+    <string name="common_all">Todos</string>
+    <string name="common_active">Activo</string>
+    <string name="common_inactive">Inactivo</string>
+
+    <!-- Home -->
+    <string name="home_net_worth">Patrimonio neto</string>
+    <string name="home_available">Disponible</string>
+    <string name="home_committed">Comprometido</string>
+    <string name="home_expense_this_month">Gasto del mes</string>
+    <string name="home_income_this_month">Ingreso del mes</string>
+    <string name="home_savings_rate">Tasa de ahorro: %1$d%%</string>
+    <string name="home_upcoming_commitments">Próximos compromisos</string>
+    <string name="home_recent_transactions">Últimas transacciones</string>
+    <string name="home_empty_upcoming">No tenés compromisos próximos en los próximos 30 días.</string>
+    <string name="home_empty_recent">Todavía no registraste ningún movimiento.</string>
+
+    <!-- Tipos de transacción -->
+    <string name="type_expense">Gasto</string>
+    <string name="type_income">Ingreso</string>
+    <string name="type_transfer">Transferencia</string>
+    <string name="type_adjustment">Ajuste</string>
+
+    <!-- Tipos de cuenta -->
+    <string name="account_type_cash">Efectivo</string>
+    <string name="account_type_bank_account">Cuenta bancaria</string>
+    <string name="account_type_savings_account">Caja de ahorro</string>
+    <string name="account_type_mercado_pago">Mercado Pago</string>
+    <string name="account_type_credit_card">Tarjeta de crédito</string>
+    <string name="account_type_investment">Inversión</string>
+    <string name="account_type_digital_wallet">Billetera digital</string>
+    <string name="account_type_other_asset">Otro activo</string>
+    <string name="account_type_loan">Préstamo</string>
+    <string name="account_type_other_liability">Otro pasivo</string>
+
+    <!-- Cuentas -->
+    <string name="accounts_add_title">Nueva cuenta</string>
+    <string name="accounts_name">Nombre de la cuenta</string>
+    <string name="accounts_owner">Dueño</string>
+    <string name="accounts_owner_household">Hogar (compartida)</string>
+    <string name="accounts_initial_balance">Saldo inicial</string>
+    <string name="accounts_currency">Moneda</string>
+    <string name="accounts_empty">Todavía no cargaste ninguna cuenta. Tocá + para agregar la primera.</string>
+    <string name="accounts_deactivate">Desactivar</string>
+    <string name="accounts_activate">Reactivar</string>
+
+    <!-- Categorías -->
+    <string name="categories_title">Categorías</string>
+    <string name="categories_add_title">Nueva categoría</string>
+    <string name="categories_name">Nombre</string>
+    <string name="categories_parent">Categoría padre</string>
+    <string name="categories_empty">Todavía no hay categorías.</string>
+
+    <!-- Tipos de miembro del hogar -->
+    <string name="member_type_owner">Titular</string>
+    <string name="member_type_member">Miembro</string>
+    <string name="member_type_dependent">Dependiente</string>
+    <string name="member_type_other">Otro</string>
+
+    <!-- Personas del hogar -->
+    <string name="household_members_title">Personas del hogar</string>
+    <string name="household_members_add_title">Nueva persona</string>
+    <string name="household_members_name">Nombre</string>
+    <string name="household_members_empty">Todavía no agregaste a nadie más.</string>
+    <string name="household_members_deactivate">Desactivar</string>
+    <string name="household_members_activate">Reactivar</string>
+
+    <!-- Periodicidad -->
+    <string name="periodicity_weekly">Semanal</string>
+    <string name="periodicity_biweekly">Quincenal</string>
+    <string name="periodicity_monthly">Mensual</string>
+    <string name="periodicity_annual">Anual</string>
+    <string name="common_periodicity">Periodicidad</string>
+
+    <!-- Recurrentes -->
+    <string name="recurring_title">Recurrentes</string>
+    <string name="recurring_add_title">Nuevo recurrente</string>
+    <string name="recurring_name">Nombre</string>
+    <string name="recurring_due_day">Día de vencimiento</string>
+    <string name="recurring_empty">Todavía no cargaste gastos ni ingresos recurrentes.</string>
+    <string name="recurring_deactivate">Desactivar</string>
+    <string name="recurring_activate">Reactivar</string>
+
+    <!-- Transacciones -->
+    <string name="transactions_title">Movimientos</string>
+    <string name="transactions_filter_type">Tipo</string>
+    <string name="transactions_filter_account">Cuenta</string>
+    <string name="transactions_filter_category">Categoría</string>
+    <string name="transactions_empty">No hay movimientos este mes con los filtros elegidos.</string>
+
+    <!-- Alta rápida -->
+    <string name="quick_add_title">Alta rápida</string>
+    <string name="quick_add_amount_hint">0,00</string>
+    <string name="quick_add_transfer_from">Desde</string>
+    <string name="quick_add_transfer_to">Hacia</string>
+    <string name="quick_add_merchant_note_toggle">Más detalles</string>
+    <string name="quick_add_save">Guardar</string>
+    <string name="quick_add_no_accounts">Primero creá una cuenta en la pestaña Cuentas.</string>
+
+    <!-- Ingresos -->
+    <string name="income_title">Ingresos</string>
+    <string name="income_expected">Ingreso mensual esperado</string>
+    <string name="income_real">Ingreso mensual real</string>
+    <string name="income_empty">Todavía no registraste ingresos este mes.</string>
+
+    <!-- Resumen financiero -->
+    <string name="summary_net_worth">Patrimonio neto</string>
+    <string name="summary_assets">Activos</string>
+    <string name="summary_liabilities">Pasivos (deuda total)</string>
+    <string name="summary_month_expense">Gasto del mes</string>
+    <string name="summary_month_income">Ingreso del mes</string>
+    <string name="summary_savings_rate">Tasa de ahorro</string>
+    <string name="summary_debt_to_income">Deuda / ingreso mensual</string>
+    <string name="summary_fixed_expenses_to_income">Gastos fijos / ingreso mensual</string>
+    <string name="summary_not_available">No disponible (sin ingresos este mes)</string>
+
+    <!-- Más -->
+    <string name="more_title">Más</string>
+</resources>

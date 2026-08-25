@@ -1,0 +1,52 @@
+package com.agustinazorin.finanzas.engine.model
+
+/** Tipo de miembro del hogar (CLAUDE.md, sección 8). No implica cuenta de usuario. */
+enum class MemberType { OWNER, MEMBER, DEPENDENT, OTHER }
+
+/** Tipo de cuenta (CLAUDE.md, sección 9). */
+enum class AccountType {
+    CASH,
+    BANK_ACCOUNT,
+    SAVINGS_ACCOUNT,
+    MERCADO_PAGO,
+    CREDIT_CARD,
+    INVESTMENT,
+    DIGITAL_WALLET,
+    OTHER_ASSET,
+    LOAN,
+    OTHER_LIABILITY,
+}
+
+/** Naturaleza económica de una transacción (CLAUDE.md, sección 14). */
+enum class TransactionType { EXPENSE, INCOME, TRANSFER, ADJUSTMENT }
+
+/**
+ * Dirección del movimiento sobre la cuenta a la que pertenece la transacción.
+ *
+ * Es independiente de [TransactionType]: un EXPENSE siempre es OUTFLOW, un INCOME siempre
+ * es INFLOW, pero un TRANSFER genera dos filas —una OUTFLOW en la cuenta origen y una
+ * INFLOW en la cuenta destino— y un ADJUSTMENT puede ir en cualquier sentido.
+ *
+ * El saldo de una cuenta es siempre `initialBalance + Σ INFLOW - Σ OUTFLOW`, sin
+ * excepciones por tipo de cuenta: en una cuenta de pasivo (ej. tarjeta de crédito) un saldo
+ * negativo representa deuda, y un OUTFLOW (una compra) profundiza esa deuda.
+ */
+enum class TransactionDirection { INFLOW, OUTFLOW }
+
+/** Origen de captura de una transacción (CLAUDE.md, sección 14). */
+enum class TransactionSource { MANUAL, NOTIFICATION, QR, EMAIL, IMPORT, SYSTEM }
+
+/** Estado de revisión/conciliación de una transacción (CLAUDE.md, sección 14). */
+enum class TransactionStatus { CONFIRMED, PENDING_REVIEW, IGNORED, DUPLICATE }
+
+/** Tipo de movimiento recurrente (CLAUDE.md, sección 15). */
+enum class RecurringType { EXPENSE, INCOME }
+
+/** Periodicidad de un movimiento recurrente (CLAUDE.md, sección 15). */
+enum class Periodicity { WEEKLY, BIWEEKLY, MONTHLY, ANNUAL }
+
+/**
+ * Nivel de certeza de un evento de cash flow (CLAUDE.md, secciones 19 y 36).
+ * Nunca se debe mezclar dinero real (ACTUAL/CONFIRMED) con estimaciones (COMMITTED/ESTIMATED).
+ */
+enum class Certainty { ACTUAL, CONFIRMED, COMMITTED, ESTIMATED }

@@ -1,0 +1,32 @@
+package com.agustinazorin.finanzas.navigation
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.PieChart
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.agustinazorin.finanzas.R
+
+/** Rutas de nivel superior, visibles en la barra de navegación inferior. */
+sealed class FinanzasDestination(val route: String, val labelRes: Int, val icon: ImageVector) {
+    object Home : FinanzasDestination("home", R.string.nav_home, Icons.Filled.Home)
+    object Transactions : FinanzasDestination("transactions", R.string.nav_transactions, Icons.Filled.List)
+    object Accounts : FinanzasDestination("accounts", R.string.nav_accounts, Icons.Filled.AccountBalanceWallet)
+    object Summary : FinanzasDestination("summary", R.string.nav_summary, Icons.Filled.PieChart)
+    object More : FinanzasDestination("more", R.string.nav_more, Icons.Filled.MoreHoriz)
+
+    companion object {
+        val bottomBarDestinations = listOf(Home, Transactions, Accounts, Summary, More)
+    }
+}
+
+/** Rutas secundarias, alcanzables desde Home o desde la pantalla "Más". */
+object SecondaryRoutes {
+    const val QUICK_ADD = "quick_add"
+    const val CATEGORIES = "categories"
+    const val HOUSEHOLD_MEMBERS = "household_members"
+    const val INCOME = "income"
+    const val RECURRING = "recurring"
+}

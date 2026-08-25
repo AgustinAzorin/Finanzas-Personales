@@ -1,5 +1,22 @@
 # CLAUDE.md — Finanzas Personales y del Hogar
 
+## 0. Nota sobre el entorno de build en sesiones remotas
+
+El sandbox de Claude Code on the web bloquea `dl.google.com` (política de red), que es el host
+real detrás de `google()` en Gradle (Android Gradle Plugin, AndroidX, Compose, Room, Hilt, y el
+propio SDK de Android). Como resultado, en ese entorno:
+
+- `:engine` (módulo Kotlin puro, sin dependencias de Android) SÍ se puede compilar y testear:
+  `./gradlew :engine:test --configure-on-demand`. `--configure-on-demand` es necesario para que
+  Gradle no intente configurar `:app` (que sí depende de `google()`) al pedir sólo `:engine`.
+- `:app` NO se puede compilar ni testear ahí: ni siquiera se puede resolver el plugin de
+  Android. `./gradlew test` / `./gradlew assembleDebug` completos sólo funcionan en una máquina
+  o CI con acceso normal a `google()`/Maven Central y el SDK de Android instalado.
+
+Si estás retomando este proyecto en una sesión con esa misma limitación, no lo tomes como señal
+de que el código de `:app` está roto: verificalo con una revisión manual cuidadosa (como se hizo
+al escribir la Fase 0) y dejale al usuario la validación de build real.
+
 ## 1. Contexto del proyecto
 
 Estamos construyendo una aplicación Android de finanzas personales y del hogar, orientada inicialmente a Argentina.
