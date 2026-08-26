@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Único uso permitido de red (CLAUDE.md, sección 2): APIs públicas de solo lectura para
+         cotizaciones e inflación, siempre por acción explícita del usuario ("Actualizar"). La
+         app entera sigue funcionando en modo avión sin este permiso siendo ejercido. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- allowBackup="false" a propósito (CLAUDE.md, sección 44): Android Auto Backup restauraría
+         el archivo cifrado de EncryptedSharedPreferences en un dispositivo nuevo, pero la clave de
+         Android Keystore que lo protege nunca sale del dispositivo original — la app quedaría con
+         una passphrase de base de datos indescifrable. La recuperación real pasa exclusivamente
+         por el backup cifrado con contraseña propio de la app (pantalla "Seguridad"). -->
+    <application
+        android:name=".FinanzasApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Finanzas">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Finanzas">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Captura automática (CLAUDE.md, sección 37). El usuario tiene que habilitarlo a mano
+             desde Ajustes del sistema (Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS); Android
+             exige exactamente este permiso y esta acción para todo NotificationListenerService. -->
+        <service
+            android:name=".core.capture.FinanzasNotificationListenerService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- Comprobantes (CLAUDE.md, sección 40): entrega un Uri de contenido temporal a la app
+             de cámara del sistema para que escriba la foto ahí, sin exponer rutas de archivo
+             reales ni usar almacenamiento externo (sección 45). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

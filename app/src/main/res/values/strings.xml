@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Finanzas</string>
+
+    <!-- Navegación -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_transactions">Movimientos</string>
+    <string name="nav_accounts">Cuentas</string>
+    <string name="nav_summary">Resumen</string>
+    <string name="nav_more">Más</string>
+
+    <!-- Comunes -->
+    <string name="common_save">Guardar</string>
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_add">Agregar</string>
+    <string name="common_edit">Editar</string>
+    <string name="common_delete">Eliminar</string>
+    <string name="common_optional">Opcional</string>
+    <string name="common_amount">Monto</string>
+    <string name="common_date">Fecha</string>
+    <string name="common_category">Categoría</string>
+    <string name="common_type">Tipo</string>
+    <string name="common_account">Cuenta</string>
+    <string name="common_note">Nota</string>
+    <string name="common_merchant">Comercio</string>
+    <string name="common_none">Ninguna</string>
+    <string name="common_all">Todos</string>
+    <string name="common_active">Activo</string>
+    <string name="common_inactive">Inactivo</string>
+
+    <!-- Home -->
+    <string name="home_net_worth">Patrimonio neto</string>
+    <string name="home_available">Disponible</string>
+    <string name="home_committed">Comprometido</string>
+    <string name="home_expense_this_month">Gasto del mes</string>
+    <string name="home_income_this_month">Ingreso del mes</string>
+    <string name="home_savings_rate">Tasa de ahorro: %1$d%%</string>
+    <string name="home_upcoming_commitments">Próximos compromisos</string>
+    <string name="home_recent_transactions">Últimas transacciones</string>
+    <string name="home_empty_upcoming">No tenés compromisos próximos en los próximos 30 días.</string>
+    <string name="home_empty_recent">Todavía no registraste ningún movimiento.</string>
+
+    <!-- Tipos de transacción -->
+    <string name="type_expense">Gasto</string>
+    <string name="type_income">Ingreso</string>
+    <string name="type_transfer">Transferencia</string>
+    <string name="type_adjustment">Ajuste</string>
+
+    <!-- Tipos de cuenta -->
+    <string name="account_type_cash">Efectivo</string>
+    <string name="account_type_bank_account">Cuenta bancaria</string>
+    <string name="account_type_savings_account">Caja de ahorro</string>
+    <string name="account_type_mercado_pago">Mercado Pago</string>
+    <string name="account_type_credit_card">Tarjeta de crédito</string>
+    <string name="account_type_investment">Inversión</string>
+    <string name="account_type_digital_wallet">Billetera digital</string>
+    <string name="account_type_other_asset">Otro activo</string>
+    <string name="account_type_loan">Préstamo</string>
+    <string name="account_type_other_liability">Otro pasivo</string>
+
+    <!-- Cuentas -->
+    <string name="accounts_add_title">Nueva cuenta</string>
+    <string name="accounts_name">Nombre de la cuenta</string>
+    <string name="accounts_owner">Dueño</string>
+    <string name="accounts_owner_household">Hogar (compartida)</string>
+    <string name="accounts_initial_balance">Saldo inicial</string>
+    <string name="accounts_currency">Moneda</string>
+    <string name="accounts_empty">Todavía no cargaste ninguna cuenta. Tocá + para agregar la primera.</string>
+    <string name="accounts_deactivate">Desactivar</string>
+    <string name="accounts_activate">Reactivar</string>
+    <string name="credit_card_view_action">Ver tarjeta</string>
+
+    <!-- Categorías -->
+    <string name="categories_title">Categorías</string>
+    <string name="categories_add_title">Nueva categoría</string>
+    <string name="categories_name">Nombre</string>
+    <string name="categories_parent">Categoría padre</string>
+    <string name="categories_empty">Todavía no hay categorías.</string>
+
+    <!-- Tipos de miembro del hogar -->
+    <string name="member_type_owner">Titular</string>
+    <string name="member_type_member">Miembro</string>
+    <string name="member_type_dependent">Dependiente</string>
+    <string name="member_type_other">Otro</string>
+
+    <!-- Personas del hogar -->
+    <string name="household_members_title">Personas del hogar</string>
+    <string name="household_members_add_title">Nueva persona</string>
+    <string name="household_members_name">Nombre</string>
+    <string name="household_members_empty">Todavía no agregaste a nadie más.</string>
+    <string name="household_members_deactivate">Desactivar</string>
+    <string name="household_members_activate">Reactivar</string>
+
+    <!-- Reporte del hogar -->
+    <string name="household_report_title">Reporte del hogar</string>
+    <string name="household_report_unassigned">Hogar (sin atribuir)</string>
+    <string name="household_report_expense">Gasto atribuido</string>
+    <string name="household_report_income">Ingreso</string>
+    <string name="household_report_empty">Todavía no hay movimientos este mes.</string>
+    <string name="household_report_debts_title">Saldos entre miembros</string>
+    <string name="household_report_debts_empty">No hay saldos pendientes entre miembros este mes.</string>
+    <string name="household_report_owes">%1$s le debe a %2$s</string>
+
+    <!-- Comprometido -->
+    <string name="committed_title">Comprometido</string>
+    <string name="committed_horizon_days">%1$d días</string>
+    <string name="committed_horizon_label">Ver detalle de</string>
+    <string name="committed_empty">No tenés compromisos en este período.</string>
+
+    <!-- Flujo -->
+    <string name="cashflow_title">Flujo</string>
+    <string name="cashflow_horizon_label">Horizonte</string>
+    <string name="cashflow_alert_negative">Tu liquidez proyectada cae por debajo de $0 el %1$s.</string>
+
+    <!-- Patrimonio -->
+    <string name="patrimonio_title">Patrimonio</string>
+    <string name="patrimonio_net_worth">Patrimonio neto</string>
+    <string name="patrimonio_evolution_title">Evolución</string>
+    <string name="patrimonio_assets_title">Activos</string>
+    <string name="patrimonio_liabilities_title">Pasivos</string>
+    <string name="patrimonio_assets_empty">Todavía no tenés activos cargados.</string>
+    <string name="patrimonio_liabilities_empty">Todavía no tenés pasivos cargados.</string>
+    <string name="patrimonio_add_asset">Agregar activo</string>
+    <string name="patrimonio_add_liability">Agregar pasivo</string>
+    <string name="patrimonio_item_name">Nombre</string>
+    <string name="patrimonio_current_value">Valor actual</string>
+    <string name="patrimonio_outstanding_amount">Saldo pendiente</string>
+
+    <!-- Categorías de activo -->
+    <string name="asset_category_cash">Efectivo físico</string>
+    <string name="asset_category_vehicle">Vehículo</string>
+    <string name="asset_category_real_estate">Inmueble</string>
+    <string name="asset_category_investment">Inversión</string>
+    <string name="asset_category_other">Otro</string>
+
+    <!-- Tipos de pasivo -->
+    <string name="liability_type_loan">Préstamo</string>
+    <string name="liability_type_personal_debt">Deuda personal</string>
+    <string name="liability_type_other">Otra obligación</string>
+
+    <!-- Patrimonio convertido e inflación (Fase 6) -->
+    <string name="patrimonio_converted_title">Patrimonio total (convertido a %1$s)</string>
+    <string name="patrimonio_converted_missing_rate">Falta cargar la cotización de %1$s para incluirlo en este total.</string>
+    <string name="patrimonio_evolution_nominal">Nominal</string>
+    <string name="patrimonio_evolution_adjusted">Ajustado por inflación a hoy</string>
+
+    <!-- Cotizaciones e inflación -->
+    <string name="currency_title">Cotizaciones</string>
+    <string name="currency_usd_rate_title">Dólar (USD/ARS)</string>
+    <string name="currency_no_rate">Todavía no hay ninguna cotización cargada.</string>
+    <string name="currency_refresh">Actualizar</string>
+    <string name="currency_refreshing">Actualizando…</string>
+    <string name="currency_add_manual">Cargar manualmente</string>
+    <string name="currency_refresh_error">No se pudo actualizar: %1$s</string>
+    <string name="currency_inflation_title">Inflación mensual</string>
+    <string name="currency_no_inflation">Todavía no hay datos de inflación cargados.</string>
+    <string name="currency_add_manual_inflation">Cargar mes manualmente</string>
+    <string name="currency_rate_label">Cotización (ARS por 1 USD)</string>
+    <string name="currency_date_label">Fecha (AAAA-MM-DD)</string>
+    <string name="currency_month_label">Mes (AAAA-MM)</string>
+    <string name="currency_percent_label">Variación mensual (%)</string>
+    <string name="currency_invalid_input">Revisá los datos ingresados.</string>
+    <string name="rate_source_manual">Manual</string>
+    <string name="rate_source_api">API</string>
+    <string name="currency_rate_display">1 USD = %1$s ARS</string>
+    <string name="currency_percent_display">%1$s%%</string>
+
+    <!-- Comprobantes (Fase 7) -->
+    <string name="receipt_title">Comprobantes</string>
+    <string name="receipt_take_photo">Sacar foto</string>
+    <string name="receipt_pick_gallery">Elegir de galería</string>
+    <string name="receipt_empty">Todavía no fotografiaste ningún comprobante.</string>
+    <string name="receipt_status_linked">Vinculado a un gasto</string>
+    <string name="receipt_status_afip_unlinked">Datos de AFIP leídos, sin vincular</string>
+    <string name="receipt_status_ocr">Texto extraído por OCR</string>
+    <string name="receipt_status_manual">Sólo la foto</string>
+    <string name="receipt_ocr_title">Texto extraído</string>
+    <string name="receipt_saved_title">Comprobante guardado</string>
+    <string name="receipt_saved_no_data">No se pudo leer ningún QR ni texto en la foto. Se guardó igual para tu referencia.</string>
+    <string name="receipt_confirm_title">Crear gasto con estos datos</string>
+    <string name="receipt_afip_summary">Comprobante %1$d-%2$d del %3$s (AFIP/ARCA)</string>
+    <string name="receipt_no_category">Sin categoría</string>
+    <string name="receipt_create_expense">Crear gasto</string>
+
+    <!-- Periodicidad -->
+    <string name="periodicity_weekly">Semanal</string>
+    <string name="periodicity_biweekly">Quincenal</string>
+    <string name="periodicity_monthly">Mensual</string>
+    <string name="periodicity_annual">Anual</string>
+    <string name="common_periodicity">Periodicidad</string>
+
+    <!-- Recurrentes -->
+    <string name="recurring_title">Recurrentes</string>
+    <string name="recurring_add_title">Nuevo recurrente</string>
+    <string name="recurring_name">Nombre</string>
+    <string name="recurring_due_day">Día de vencimiento</string>
+    <string name="recurring_empty">Todavía no cargaste gastos ni ingresos recurrentes.</string>
+    <string name="recurring_deactivate">Desactivar</string>
+    <string name="recurring_activate">Reactivar</string>
+
+    <!-- Transacciones -->
+    <string name="transactions_title">Movimientos</string>
+    <string name="transactions_filter_type">Tipo</string>
+    <string name="transactions_filter_account">Cuenta</string>
+    <string name="transactions_filter_category">Categoría</string>
+    <string name="transactions_filter_member">Persona</string>
+    <string name="transactions_empty">No hay movimientos este mes con los filtros elegidos.</string>
+
+    <!-- Alta rápida -->
+    <string name="quick_add_title">Alta rápida</string>
+    <string name="quick_add_amount_hint">0,00</string>
+    <string name="quick_add_transfer_from">Desde</string>
+    <string name="quick_add_transfer_to">Hacia</string>
+    <string name="quick_add_merchant_note_toggle">Más detalles</string>
+    <string name="quick_add_save">Guardar</string>
+    <string name="quick_add_no_accounts">Primero creá una cuenta en la pestaña Cuentas.</string>
+    <string name="quick_add_payer">Pagó</string>
+    <string name="quick_add_payer_unassigned">Sin asignar</string>
+    <string name="quick_add_share_toggle">Compartir con…</string>
+    <string name="quick_add_share_members">Beneficiarios (se reparte en partes iguales)</string>
+
+    <!-- Ingresos -->
+    <string name="income_title">Ingresos</string>
+    <string name="income_expected">Ingreso mensual esperado</string>
+    <string name="income_real">Ingreso mensual real</string>
+    <string name="income_empty">Todavía no registraste ingresos este mes.</string>
+
+    <!-- Resumen financiero -->
+    <string name="summary_net_worth">Patrimonio neto</string>
+    <string name="summary_assets">Activos</string>
+    <string name="summary_liabilities">Pasivos (deuda total)</string>
+    <string name="summary_month_expense">Gasto del mes</string>
+    <string name="summary_month_income">Ingreso del mes</string>
+    <string name="summary_savings_rate">Tasa de ahorro</string>
+    <string name="summary_debt_to_income">Deuda / ingreso mensual</string>
+    <string name="summary_fixed_expenses_to_income">Gastos fijos / ingreso mensual</string>
+    <string name="summary_not_available">No disponible (sin ingresos este mes)</string>
+
+    <!-- Más -->
+    <string name="more_title">Más</string>
+
+    <!-- Captura automática -->
+    <string name="capture_settings_title">Captura automática</string>
+    <string name="capture_settings_description">Detectá gastos e ingresos a partir de las notificaciones de tus apps de pago. Nada se carga como movimiento real hasta que lo confirmes en la bandeja de revisión.</string>
+    <string name="capture_settings_permission_granted">Le diste permiso a Finanzas para leer notificaciones.</string>
+    <string name="capture_settings_permission_missing">Todavía no le diste permiso a Finanzas para leer notificaciones.</string>
+    <string name="capture_settings_open_system_settings">Abrir ajustes de notificaciones</string>
+    <string name="capture_settings_apps_title">Apps habilitadas</string>
+    <string name="capture_settings_mercado_pago">Mercado Pago</string>
+    <string name="capture_settings_custom_package_hint">Paquete de otra app (ej: com.tubanco.app)</string>
+
+    <string name="capture_review_title">Revisar capturas</string>
+    <string name="capture_review_empty">No tenés notificaciones pendientes de revisión.</string>
+    <string name="capture_review_unparsed">No pudimos interpretar el monto de esta notificación. Completalo a mano.</string>
+    <string name="capture_review_confirm">Confirmar</string>
+    <string name="capture_review_discard">Descartar</string>
+    <string name="capture_review_member">Persona</string>
+    <string name="capture_review_duplicate_dialog_title">¿Ya cargaste este gasto?</string>
+    <string name="capture_review_duplicate_dialog_message">Encontramos un movimiento parecido ya cargado. Elegí si es el mismo o si querés cargar esta captura de todos modos.</string>
+    <string name="capture_review_duplicate_create_new">Cargar de todos modos</string>
+
+    <string name="category_rules_title">Categorización automática</string>
+    <string name="category_rules_empty">Todavía no hay reglas aprendidas. Se crean solas cuando elegís una categoría para un comercio.</string>
+
+    <!-- Tarjetas de crédito -->
+    <string name="credit_card_setup_title">Configurar tarjeta</string>
+    <string name="credit_card_setup_description">Necesitamos el día de cierre y de vencimiento para poder calcular tus resúmenes y tu crédito disponible.</string>
+    <string name="credit_card_closing_day">Día de cierre (1-31)</string>
+    <string name="credit_card_due_day">Día de vencimiento (1-31)</string>
+    <string name="credit_card_limit">Límite</string>
+    <string name="credit_card_available">Disponible</string>
+    <string name="credit_card_debt">Debés</string>
+    <string name="credit_card_add_purchase">Cargar compra</string>
+    <string name="credit_card_installments_count">Cantidad de cuotas</string>
+    <string name="credit_card_statements_title">Resúmenes</string>
+    <string name="credit_card_statement_due">Vence el %1$s</string>
+    <string name="credit_card_pay_statement">Pagar resumen</string>
+    <string name="credit_card_pay_from">Pagar desde</string>
+    <string name="credit_card_upcoming_installments_title">Próximas cuotas</string>
+    <string name="credit_card_no_upcoming_installments">No tenés cuotas pendientes.</string>
+    <string name="credit_card_installment_label">Cuota %1$d/%2$d</string>
+    <string name="credit_card_statement_status_open">Abierto</string>
+    <string name="credit_card_statement_status_closed">Cerrado</string>
+    <string name="credit_card_statement_status_partially_paid">Pagado parcialmente</string>
+    <string name="credit_card_statement_status_paid">Pagado</string>
+
+    <!-- Seguridad y backup (Fase 8) -->
+    <string name="security_title">Seguridad</string>
+    <string name="security_lock_section_title">Bloqueo con biometría</string>
+    <string name="security_lock_toggle_label">Pedir huella o rostro al abrir la app</string>
+    <string name="security_lock_description">Si lo activás, la app se bloquea cada vez que vuelve de segundo plano y hace falta tu huella o rostro para volver a verla.</string>
+    <string name="security_lock_unavailable">Tu dispositivo no tiene biometría configurada, así que no podemos activar el bloqueo.</string>
+    <string name="security_lock_prompt_title">Desbloquear Finanzas</string>
+    <string name="security_lock_screen_title">La app está bloqueada</string>
+    <string name="security_unlock_button">Desbloquear</string>
+    <string name="security_backup_section_title">Backup cifrado</string>
+    <string name="security_backup_description">Incluye tu base de datos completa y las fotos de tus comprobantes en un único archivo cifrado con una contraseña que elegís vos. Podés guardarlo donde quieras y usarlo para recuperar todo en otro dispositivo.</string>
+    <string name="security_export_backup">Exportar backup</string>
+    <string name="security_import_backup">Importar backup</string>
+    <string name="security_export_password_hint">Elegí una contraseña para este backup. La vas a necesitar para restaurarlo, así que no la pierdas: no hay forma de recuperar el archivo sin ella.</string>
+    <string name="security_password_label">Contraseña</string>
+    <string name="security_password_confirm_label">Repetir contraseña</string>
+    <string name="security_password_too_short">La contraseña tiene que tener al menos 8 caracteres.</string>
+    <string name="security_password_mismatch">Las contraseñas no coinciden.</string>
+    <string name="security_operation_in_progress">Trabajando…</string>
+    <string name="security_export_success_title">Backup exportado</string>
+    <string name="security_export_success_message">Guardá bien el archivo y la contraseña: los vas a necesitar si alguna vez necesitás restaurar tus datos.</string>
+    <string name="security_export_error">No pudimos crear el backup. Intentá de nuevo.</string>
+    <string name="security_import_success_title">Backup restaurado</string>
+    <string name="security_import_success_message">Tus datos se restauraron correctamente. La app se tiene que reiniciar para terminar.</string>
+    <string name="security_import_error">No pudimos restaurar este backup. Puede que la contraseña sea incorrecta o que el archivo esté dañado.</string>
+    <string name="security_restart_now">Reiniciar ahora</string>
+    <string name="security_error_title">Ocurrió un problema</string>
+</resources>
