@@ -7,14 +7,20 @@ import com.agustinazorin.finanzas.core.database.APP_MIGRATIONS
 import com.agustinazorin.finanzas.core.database.AppDatabase
 import com.agustinazorin.finanzas.core.database.DATABASE_NAME
 import com.agustinazorin.finanzas.core.database.dao.AccountDao
+import com.agustinazorin.finanzas.core.database.dao.AssetDao
 import com.agustinazorin.finanzas.core.database.dao.CapturedNotificationDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryRuleDao
 import com.agustinazorin.finanzas.core.database.dao.CreditCardDao
 import com.agustinazorin.finanzas.core.database.dao.CreditCardStatementDao
+import com.agustinazorin.finanzas.core.database.dao.ExchangeRateDao
+import com.agustinazorin.finanzas.core.database.dao.FinancialSnapshotDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdMemberDao
+import com.agustinazorin.finanzas.core.database.dao.InflationRateDao
 import com.agustinazorin.finanzas.core.database.dao.InstallmentDao
+import com.agustinazorin.finanzas.core.database.dao.LiabilityDao
+import com.agustinazorin.finanzas.core.database.dao.ReceiptDao
 import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
@@ -103,4 +109,22 @@ object DatabaseModule {
 
     @Provides
     fun provideInstallmentDao(db: AppDatabase): InstallmentDao = db.installmentDao()
+
+    @Provides
+    fun provideAssetDao(db: AppDatabase): AssetDao = db.assetDao()
+
+    @Provides
+    fun provideLiabilityDao(db: AppDatabase): LiabilityDao = db.liabilityDao()
+
+    @Provides
+    fun provideFinancialSnapshotDao(db: AppDatabase): FinancialSnapshotDao = db.financialSnapshotDao()
+
+    @Provides
+    fun provideExchangeRateDao(db: AppDatabase): ExchangeRateDao = db.exchangeRateDao()
+
+    @Provides
+    fun provideInflationRateDao(db: AppDatabase): InflationRateDao = db.inflationRateDao()
+
+    @Provides
+    fun provideReceiptDao(db: AppDatabase): ReceiptDao = db.receiptDao()
 }

@@ -35,6 +35,7 @@ class AddExpenseUseCase @Inject constructor(
         merchant: String? = null,
         note: String? = null,
         sharedWithMemberIds: List<Long> = emptyList(),
+        source: TransactionSource = TransactionSource.MANUAL,
     ): Long {
         require(amount > 0) { "El monto de un gasto debe ser mayor a cero." }
         val now = Instant.now()
@@ -51,7 +52,7 @@ class AddExpenseUseCase @Inject constructor(
                 merchant = merchant,
                 categoryId = categoryId,
                 type = TransactionType.EXPENSE,
-                source = TransactionSource.MANUAL,
+                source = source,
                 note = note,
                 reconciliationHash = null,
                 linkedTransactionId = null,

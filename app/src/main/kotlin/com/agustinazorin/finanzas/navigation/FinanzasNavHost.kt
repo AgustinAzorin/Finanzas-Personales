@@ -34,6 +34,7 @@ import com.agustinazorin.finanzas.feature.household.ui.HouseholdReportScreen
 import com.agustinazorin.finanzas.feature.income.ui.IncomeScreen
 import com.agustinazorin.finanzas.feature.more.ui.MoreScreen
 import com.agustinazorin.finanzas.feature.patrimonio.ui.PatrimonioScreen
+import com.agustinazorin.finanzas.feature.receipt.ui.ReceiptsScreen
 import com.agustinazorin.finanzas.feature.recurring.ui.RecurringScreen
 import com.agustinazorin.finanzas.feature.summary.ui.SummaryScreen
 import com.agustinazorin.finanzas.feature.transaction.ui.QuickAddScreen
@@ -94,6 +95,7 @@ fun FinanzasNavHost() {
             composable(SecondaryRoutes.CASH_FLOW) { CashFlowScreen() }
             composable(SecondaryRoutes.PATRIMONIO) { PatrimonioScreen() }
             composable(SecondaryRoutes.CURRENCY) { CurrencyScreen() }
+            composable(SecondaryRoutes.RECEIPTS) { ReceiptsScreen() }
             composable(SecondaryRoutes.INCOME) { IncomeScreen() }
             composable(SecondaryRoutes.RECURRING) { RecurringScreen() }
             composable(SecondaryRoutes.CAPTURE_SETTINGS) { CaptureSettingsScreen() }

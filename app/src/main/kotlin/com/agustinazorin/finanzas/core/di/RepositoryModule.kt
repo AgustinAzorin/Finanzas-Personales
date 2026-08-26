@@ -28,6 +28,8 @@ import com.agustinazorin.finanzas.feature.patrimonio.data.LiabilityRepositoryImp
 import com.agustinazorin.finanzas.feature.patrimonio.domain.AssetRepository
 import com.agustinazorin.finanzas.feature.patrimonio.domain.FinancialSnapshotRepository
 import com.agustinazorin.finanzas.feature.patrimonio.domain.LiabilityRepository
+import com.agustinazorin.finanzas.feature.receipt.data.ReceiptRepositoryImpl
+import com.agustinazorin.finanzas.feature.receipt.domain.ReceiptRepository
 import com.agustinazorin.finanzas.feature.recurring.data.RecurringTransactionRepositoryImpl
 import com.agustinazorin.finanzas.feature.recurring.domain.RecurringTransactionRepository
 import com.agustinazorin.finanzas.feature.transaction.data.TransactionRepositoryImpl
@@ -105,4 +107,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindInflationRateRepository(impl: InflationRateRepositoryImpl): InflationRateRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindReceiptRepository(impl: ReceiptRepositoryImpl): ReceiptRepository
 }

@@ -81,6 +81,11 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
 
+    // Comprobantes (CLAUDE.md, sección 40): lectura de QR y OCR, ambos con modelos on-device
+    // (no requieren red en tiempo de ejecución, consistente con local-first).
+    implementation(libs.mlkit.barcode.scanning)
+    implementation(libs.mlkit.text.recognition)
+
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)

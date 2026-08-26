@@ -10,6 +10,7 @@ import com.agustinazorin.finanzas.engine.model.LiabilityType
 import com.agustinazorin.finanzas.engine.model.MemberType
 import com.agustinazorin.finanzas.engine.model.Periodicity
 import com.agustinazorin.finanzas.engine.model.RateSource
+import com.agustinazorin.finanzas.engine.model.ReceiptSource
 import com.agustinazorin.finanzas.engine.model.RecurringType
 import com.agustinazorin.finanzas.engine.model.TransactionDirection
 import com.agustinazorin.finanzas.engine.model.TransactionSource
@@ -121,4 +122,10 @@ class Converters {
 
     @TypeConverter
     fun toRateSource(value: String?): RateSource? = value?.let(RateSource::valueOf)
+
+    @TypeConverter
+    fun fromReceiptSource(value: ReceiptSource?): String? = value?.name
+
+    @TypeConverter
+    fun toReceiptSource(value: String?): ReceiptSource? = value?.let(ReceiptSource::valueOf)
 }

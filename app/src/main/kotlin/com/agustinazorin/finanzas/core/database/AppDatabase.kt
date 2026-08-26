@@ -17,6 +17,7 @@ import com.agustinazorin.finanzas.core.database.dao.HouseholdMemberDao
 import com.agustinazorin.finanzas.core.database.dao.InflationRateDao
 import com.agustinazorin.finanzas.core.database.dao.InstallmentDao
 import com.agustinazorin.finanzas.core.database.dao.LiabilityDao
+import com.agustinazorin.finanzas.core.database.dao.ReceiptDao
 import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
@@ -34,6 +35,7 @@ import com.agustinazorin.finanzas.core.database.entity.HouseholdMemberEntity
 import com.agustinazorin.finanzas.core.database.entity.InflationRateEntity
 import com.agustinazorin.finanzas.core.database.entity.InstallmentEntity
 import com.agustinazorin.finanzas.core.database.entity.LiabilityEntity
+import com.agustinazorin.finanzas.core.database.entity.ReceiptEntity
 import com.agustinazorin.finanzas.core.database.entity.RecurringTransactionEntity
 import com.agustinazorin.finanzas.core.database.entity.TransactionBeneficiaryEntity
 import com.agustinazorin.finanzas.core.database.entity.TransactionEntity
@@ -50,8 +52,8 @@ const val DATABASE_NAME = "finanzas.db"
  * hay datos reales de un schema anterior que proteger todavía. A partir de la primera build real
  * del usuario, este esquema pasa a ser la base congelada: cualquier cambio futuro sí deberá ir
  * por una Migration explícita (ver [APP_MIGRATIONS]). [AssetEntity], [LiabilityEntity] y
- * [FinancialSnapshotEntity] (Fase 5), y [ExchangeRateEntity]/[InflationRateEntity] (Fase 6),
- * siguen la misma convención.
+ * [FinancialSnapshotEntity] (Fase 5), [ExchangeRateEntity]/[InflationRateEntity] (Fase 6), y
+ * [ReceiptEntity] (Fase 7), siguen la misma convención.
  */
 @Database(
     entities = [
@@ -72,6 +74,7 @@ const val DATABASE_NAME = "finanzas.db"
         FinancialSnapshotEntity::class,
         ExchangeRateEntity::class,
         InflationRateEntity::class,
+        ReceiptEntity::class,
     ],
     version = 1,
     exportSchema = true,
@@ -95,4 +98,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun financialSnapshotDao(): FinancialSnapshotDao
     abstract fun exchangeRateDao(): ExchangeRateDao
     abstract fun inflationRateDao(): InflationRateDao
+    abstract fun receiptDao(): ReceiptDao
 }

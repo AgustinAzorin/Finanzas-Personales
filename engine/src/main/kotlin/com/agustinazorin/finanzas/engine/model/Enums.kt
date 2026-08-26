@@ -94,3 +94,12 @@ enum class LiabilityType { LOAN, PERSONAL_DEBT, OTHER }
  * ("Actualizar"), nunca automática ni obligatoria: la app sigue funcionando en modo avión.
  */
 enum class RateSource { MANUAL, API }
+
+/**
+ * De dónde salió la información estructurada/textual de un comprobante fotografiado (CLAUDE.md,
+ * sección 40). QR: se pudo leer y parsear el QR AFIP/ARCA del comprobante (la fuente más
+ * confiable, nunca se ignora si está presente). OCR: no había QR reconocible, se extrajo texto
+ * por reconocimiento óptico como respaldo. MANUAL: no se pudo extraer nada automáticamente, sólo
+ * queda la foto guardada para referencia del usuario.
+ */
+enum class ReceiptSource { QR, OCR, MANUAL }

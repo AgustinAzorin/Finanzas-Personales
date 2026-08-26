@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.PieChart
+import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Rule
 import androidx.compose.material.icons.filled.Savings
@@ -43,6 +44,7 @@ private val moreItems = listOf(
     MoreItem(SecondaryRoutes.CASH_FLOW, R.string.cashflow_title, Icons.Filled.Timeline),
     MoreItem(SecondaryRoutes.PATRIMONIO, R.string.patrimonio_title, Icons.Filled.Savings),
     MoreItem(SecondaryRoutes.CURRENCY, R.string.currency_title, Icons.Filled.CurrencyExchange),
+    MoreItem(SecondaryRoutes.RECEIPTS, R.string.receipt_title, Icons.Filled.Receipt),
     MoreItem(SecondaryRoutes.INCOME, R.string.income_title, Icons.Filled.Payments),
     MoreItem(SecondaryRoutes.RECURRING, R.string.recurring_title, Icons.Filled.Repeat),
     MoreItem(SecondaryRoutes.CAPTURE_REVIEW, R.string.capture_review_title, Icons.Filled.Inbox),

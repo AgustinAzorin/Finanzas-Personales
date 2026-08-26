@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sólo expone almacenamiento interno privado (CLAUDE.md, sección 45: nunca almacenamiento
+     externo). La cámara del sistema escribe la foto acá vía el Uri que entrega FileProvider. -->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path name="receipts" path="receipts/" />
+</paths>
