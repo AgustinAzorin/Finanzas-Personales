@@ -1,0 +1,62 @@
+name: Build and test
+
+# Corre en runners de GitHub con acceso normal a internet (sin el bloqueo a dl.google.com del
+# sandbox de Claude Code on the web — ver CLAUDE.md, sección 0). Esta es la primera validación
+# real de :app: compila, corre los tests, y deja el APK de debug listo para descargar sin
+# necesidad de instalar Android Studio ni el SDK en ninguna máquina local.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # No bloquea el build del APK: si algo falla acá, igual queremos ver si compila y tener un
+      # APK para probar a mano. El job se marca en rojo al final si los tests fallaron (ver el
+      # último paso), pero no corta el resto de los pasos.
+      - name: Run tests (:engine + :app)
+        id: tests
+        run: ./gradlew test
+        continue-on-error: true
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: finanzas-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            **/build/reports/tests/
+            **/build/test-results/
+
+      - name: Fail job if tests failed
+        if: steps.tests.outcome == 'failure'
+        run: exit 1

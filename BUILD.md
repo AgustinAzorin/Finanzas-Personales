@@ -13,7 +13,22 @@ pasó por una compilación real de punta a punta** — este documento es exactam
 primera vez que corras estos pasos es de esperar encontrar algún error puntual de compilación
 (ver punto 6 más abajo).
 
-## Requisitos previos
+## Opción sin instalar nada: compilar en GitHub Actions
+
+Si no querés instalar Android Studio ni el SDK en ninguna máquina, `.github/workflows/build.yml`
+compila el proyecto en los runners de GitHub (que sí tienen acceso normal a `dl.google.com`, a
+diferencia de este sandbox) en cada push y en cada pull request. Deja dos artifacts descargables
+desde la pestaña **Actions** del repo en GitHub (funciona igual desde el navegador del celular):
+
+- `finanzas-debug-apk`: el `.apk` de debug, listo para instalar en el teléfono (hay que permitir
+  "instalar apps de orígenes desconocidos" la primera vez).
+- `test-reports`: los reportes de `./gradlew test` (`:engine` + `:app`), útiles si algo falla.
+
+El job compila el APK aunque los tests fallen (para siempre tener algo instalable en esta primera
+etapa), pero igual queda marcado en rojo si hubo tests fallidos — no hace falta ni terminal ni
+instalar nada más allá del APK descargado.
+
+## Requisitos previos (para compilar localmente)
 
 - JDK 17.
 - Android Studio (recomendado — trae el SDK) o Android SDK Command-line Tools instalado a mano.
