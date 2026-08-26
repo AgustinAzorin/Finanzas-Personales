@@ -39,6 +39,9 @@ android {
 
     buildFeatures {
         compose = true
+        // Habilitado sólo para exponer BuildConfig.VERSION_NAME en la metadata de los backups
+        // cifrados (CLAUDE.md, sección 44) — no se usa para nada más.
+        buildConfig = true
     }
 
     testOptions {
@@ -85,6 +88,16 @@ dependencies {
     // (no requieren red en tiempo de ejecución, consistente con local-first).
     implementation(libs.mlkit.barcode.scanning)
     implementation(libs.mlkit.text.recognition)
+
+    // Seguridad (CLAUDE.md, sección 43): SQLCipher cifra la base Room en reposo con una clave
+    // generada localmente y protegida por Android Keystore; security-crypto la guarda con
+    // EncryptedSharedPreferences; biometric habilita el bloqueo con BiometricPrompt.
+    implementation(libs.sqlcipher.android)
+    implementation(libs.androidx.sqlite)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.biometric)
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.fragment.ktx)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

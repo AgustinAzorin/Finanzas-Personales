@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.Rule
 import androidx.compose.material.icons.filled.Savings
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -50,6 +51,7 @@ private val moreItems = listOf(
     MoreItem(SecondaryRoutes.CAPTURE_REVIEW, R.string.capture_review_title, Icons.Filled.Inbox),
     MoreItem(SecondaryRoutes.CAPTURE_SETTINGS, R.string.capture_settings_title, Icons.Filled.NotificationsActive),
     MoreItem(SecondaryRoutes.CATEGORY_RULES, R.string.category_rules_title, Icons.Filled.Rule),
+    MoreItem(SecondaryRoutes.SECURITY, R.string.security_title, Icons.Filled.Security),
 )
 
 @Composable

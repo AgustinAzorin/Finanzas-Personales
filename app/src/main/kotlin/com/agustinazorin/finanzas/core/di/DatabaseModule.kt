@@ -25,15 +25,17 @@ import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
 import com.agustinazorin.finanzas.core.database.seedDefaultCategories
+import com.agustinazorin.finanzas.core.security.DatabasePassphraseProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Provider
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import net.sqlcipher.database.SupportFactory
 
 /**
  * Puebla la base de datos recién creada con el árbol de categorías estándar (CLAUDE.md,
@@ -68,11 +70,19 @@ object DatabaseModule {
         @ApplicationContext context: Context,
         databaseProvider: Provider<AppDatabase>,
         @ApplicationScope applicationScope: CoroutineScope,
-    ): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+        passphraseProvider: DatabasePassphraseProvider,
+    ): AppDatabase {
+        // SQLCipher cifra `finanzas.db` en reposo (CLAUDE.md, sección 43) con una passphrase
+        // generada localmente y protegida por Android Keystore (ver DatabasePassphraseProvider),
+        // nunca hardcodeada. `net.sqlcipher.database.SQLiteDatabase.loadLibs` ya corrió en
+        // FinanzasApplication.onCreate antes de que este Provider pueda ser invocado.
+        val passphrase = passphraseProvider.getOrCreatePassphrase()
+        return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+            .openHelperFactory(SupportFactory(passphrase))
             .addMigrations(*APP_MIGRATIONS)
             .addCallback(SeedDatabaseCallback(databaseProvider, applicationScope))
             .build()
+    }
 
     @Provides
     fun provideHouseholdDao(db: AppDatabase): HouseholdDao = db.householdDao()
