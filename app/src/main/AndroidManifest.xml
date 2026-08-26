@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Único uso permitido de red (CLAUDE.md, sección 2): APIs públicas de solo lectura para
+         cotizaciones e inflación, siempre por acción explícita del usuario ("Actualizar"). La
+         app entera sigue funcionando en modo avión sin este permiso siendo ejercido. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".FinanzasApplication"
         android:allowBackup="true"

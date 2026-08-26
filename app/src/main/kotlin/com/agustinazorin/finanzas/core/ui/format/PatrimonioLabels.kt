@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.agustinazorin.finanzas.R
 import com.agustinazorin.finanzas.engine.model.AssetCategory
 import com.agustinazorin.finanzas.engine.model.LiabilityType
+import com.agustinazorin.finanzas.engine.model.RateSource
 
 @Composable
 fun AssetCategory.label(): String = when (this) {
@@ -20,4 +21,10 @@ fun LiabilityType.label(): String = when (this) {
     LiabilityType.LOAN -> stringResource(R.string.liability_type_loan)
     LiabilityType.PERSONAL_DEBT -> stringResource(R.string.liability_type_personal_debt)
     LiabilityType.OTHER -> stringResource(R.string.liability_type_other)
+}
+
+@Composable
+fun RateSource.label(): String = when (this) {
+    RateSource.MANUAL -> stringResource(R.string.rate_source_manual)
+    RateSource.API -> stringResource(R.string.rate_source_api)
 }

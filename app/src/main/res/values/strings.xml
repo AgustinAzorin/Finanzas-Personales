@@ -138,6 +138,33 @@
     <string name="liability_type_personal_debt">Deuda personal</string>
     <string name="liability_type_other">Otra obligación</string>
 
+    <!-- Patrimonio convertido e inflación (Fase 6) -->
+    <string name="patrimonio_converted_title">Patrimonio total (convertido a %1$s)</string>
+    <string name="patrimonio_converted_missing_rate">Falta cargar la cotización de %1$s para incluirlo en este total.</string>
+    <string name="patrimonio_evolution_nominal">Nominal</string>
+    <string name="patrimonio_evolution_adjusted">Ajustado por inflación a hoy</string>
+
+    <!-- Cotizaciones e inflación -->
+    <string name="currency_title">Cotizaciones</string>
+    <string name="currency_usd_rate_title">Dólar (USD/ARS)</string>
+    <string name="currency_no_rate">Todavía no hay ninguna cotización cargada.</string>
+    <string name="currency_refresh">Actualizar</string>
+    <string name="currency_refreshing">Actualizando…</string>
+    <string name="currency_add_manual">Cargar manualmente</string>
+    <string name="currency_refresh_error">No se pudo actualizar: %1$s</string>
+    <string name="currency_inflation_title">Inflación mensual</string>
+    <string name="currency_no_inflation">Todavía no hay datos de inflación cargados.</string>
+    <string name="currency_add_manual_inflation">Cargar mes manualmente</string>
+    <string name="currency_rate_label">Cotización (ARS por 1 USD)</string>
+    <string name="currency_date_label">Fecha (AAAA-MM-DD)</string>
+    <string name="currency_month_label">Mes (AAAA-MM)</string>
+    <string name="currency_percent_label">Variación mensual (%)</string>
+    <string name="currency_invalid_input">Revisá los datos ingresados.</string>
+    <string name="rate_source_manual">Manual</string>
+    <string name="rate_source_api">API</string>
+    <string name="currency_rate_display">1 USD = %1$s ARS</string>
+    <string name="currency_percent_display">%1$s%%</string>
+
     <!-- Periodicidad -->
     <string name="periodicity_weekly">Semanal</string>
     <string name="periodicity_biweekly">Quincenal</string>

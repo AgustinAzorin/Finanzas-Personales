@@ -31,6 +31,7 @@ object SecondaryRoutes {
     const val COMMITTED = "committed"
     const val CASH_FLOW = "cash_flow"
     const val PATRIMONIO = "patrimonio"
+    const val CURRENCY = "currency"
     const val INCOME = "income"
     const val RECURRING = "recurring"
     const val CAPTURE_SETTINGS = "capture_settings"

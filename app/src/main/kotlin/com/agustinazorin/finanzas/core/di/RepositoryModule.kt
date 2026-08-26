@@ -12,6 +12,10 @@ import com.agustinazorin.finanzas.feature.creditcard.data.CreditCardRepositoryIm
 import com.agustinazorin.finanzas.feature.creditcard.data.CreditCardStatementRepositoryImpl
 import com.agustinazorin.finanzas.feature.creditcard.domain.CreditCardRepository
 import com.agustinazorin.finanzas.feature.creditcard.domain.CreditCardStatementRepository
+import com.agustinazorin.finanzas.feature.currency.data.ExchangeRateRepositoryImpl
+import com.agustinazorin.finanzas.feature.currency.data.InflationRateRepositoryImpl
+import com.agustinazorin.finanzas.feature.currency.domain.ExchangeRateRepository
+import com.agustinazorin.finanzas.feature.currency.domain.InflationRateRepository
 import com.agustinazorin.finanzas.feature.household.data.HouseholdMemberRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.data.HouseholdRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberRepository
@@ -93,4 +97,12 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindFinancialSnapshotRepository(impl: FinancialSnapshotRepositoryImpl): FinancialSnapshotRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindExchangeRateRepository(impl: ExchangeRateRepositoryImpl): ExchangeRateRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindInflationRateRepository(impl: InflationRateRepositoryImpl): InflationRateRepository
 }

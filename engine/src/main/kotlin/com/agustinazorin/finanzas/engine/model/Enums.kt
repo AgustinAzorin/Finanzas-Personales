@@ -86,3 +86,11 @@ enum class AssetCategory { CASH, VEHICLE, REAL_ESTATE, INVESTMENT, OTHER }
  * como un préstamo personal o una deuda informal.
  */
 enum class LiabilityType { LOAN, PERSONAL_DEBT, OTHER }
+
+/**
+ * Origen de una cotización o tasa de inflación guardada (CLAUDE.md, sección 41: siempre hay que
+ * guardar `exchangeRateSource`). MANUAL es la que carga el usuario a mano; API es la traída de
+ * una fuente pública de solo lectura (CLAUDE.md, sección 2) mediante una acción explícita
+ * ("Actualizar"), nunca automática ni obligatoria: la app sigue funcionando en modo avión.
+ */
+enum class RateSource { MANUAL, API }

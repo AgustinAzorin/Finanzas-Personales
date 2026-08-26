@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -33,12 +34,12 @@ import com.agustinazorin.finanzas.core.ui.format.parseMoneyInput
 import com.agustinazorin.finanzas.core.ui.theme.CommittedAmber
 import com.agustinazorin.finanzas.core.ui.theme.ExpenseRed
 import com.agustinazorin.finanzas.core.ui.theme.IncomeGreen
+import com.agustinazorin.finanzas.engine.currency.CurrencyConversionResult
 import com.agustinazorin.finanzas.engine.model.AssetCategory
 import com.agustinazorin.finanzas.engine.model.LiabilityType
 import com.agustinazorin.finanzas.engine.money.Money
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMember
 import com.agustinazorin.finanzas.feature.patrimonio.domain.Asset
-import com.agustinazorin.finanzas.feature.patrimonio.domain.FinancialSnapshot
 import com.agustinazorin.finanzas.feature.patrimonio.domain.Liability
 
 private const val BASE_CURRENCY = "ARS"
@@ -47,6 +48,7 @@ private const val BASE_CURRENCY = "ARS"
 fun PatrimonioScreen(viewModel: PatrimonioViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsState()
     val evolution by viewModel.evolution.collectAsState()
+    val convertedNetWorth by viewModel.convertedNetWorth.collectAsState()
     val members by viewModel.members.collectAsState()
     var showAddAssetDialog by remember { mutableStateOf(false) }
     var showAddLiabilityDialog by remember { mutableStateOf(false) }
@@ -58,9 +60,11 @@ fun PatrimonioScreen(viewModel: PatrimonioViewModel = hiltViewModel()) {
     ) {
         item { NetWorthCard(state.netWorth) }
 
+        convertedNetWorth?.let { item { ConvertedNetWorthCard(it) } }
+
         if (evolution.isNotEmpty()) {
             item { SectionHeader(stringResource(R.string.patrimonio_evolution_title)) }
-            items(evolution, key = { "evolution_${it.id}" }) { EvolutionRow(it) }
+            items(evolution, key = { "evolution_${it.snapshot.id}" }) { EvolutionRow(it) }
         }
 
         item {
@@ -148,10 +152,48 @@ private fun SectionHeader(title: String, total: Money, onAdd: () -> Unit, addLab
 }
 
 @Composable
-private fun EvolutionRow(snapshot: FinancialSnapshot) {
+private fun ConvertedNetWorthCard(result: CurrencyConversionResult) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                stringResource(R.string.patrimonio_converted_title, result.total.currency),
+                style = MaterialTheme.typography.labelLarge,
+            )
+            MoneyText(result.total.minorUnits, result.total.currency, style = MaterialTheme.typography.headlineSmall)
+            result.missingRates.forEach { currency ->
+                Text(
+                    stringResource(R.string.patrimonio_converted_missing_rate, currency),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EvolutionRow(item: SnapshotEvolutionItem) {
+    val snapshot = item.snapshot
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         Text(snapshot.date.toString(), style = MaterialTheme.typography.bodyMedium)
-        MoneyText(snapshot.netWorth, snapshot.currency, style = MaterialTheme.typography.bodyMedium)
+        Column(horizontalAlignment = Alignment.End) {
+            if (item.adjustedToToday != null) {
+                Text(
+                    stringResource(R.string.patrimonio_evolution_nominal),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            MoneyText(snapshot.netWorth, snapshot.currency, style = MaterialTheme.typography.bodyMedium)
+            item.adjustedToToday?.let { adjusted ->
+                Text(
+                    stringResource(R.string.patrimonio_evolution_adjusted),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                MoneyText(adjusted.minorUnits, adjusted.currency, style = MaterialTheme.typography.bodySmall)
+            }
+        }
     }
 }
 

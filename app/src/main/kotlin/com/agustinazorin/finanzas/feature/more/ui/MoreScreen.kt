@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.CurrencyExchange
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Inbox
@@ -41,6 +42,7 @@ private val moreItems = listOf(
     MoreItem(SecondaryRoutes.COMMITTED, R.string.committed_title, Icons.Filled.Event),
     MoreItem(SecondaryRoutes.CASH_FLOW, R.string.cashflow_title, Icons.Filled.Timeline),
     MoreItem(SecondaryRoutes.PATRIMONIO, R.string.patrimonio_title, Icons.Filled.Savings),
+    MoreItem(SecondaryRoutes.CURRENCY, R.string.currency_title, Icons.Filled.CurrencyExchange),
     MoreItem(SecondaryRoutes.INCOME, R.string.income_title, Icons.Filled.Payments),
     MoreItem(SecondaryRoutes.RECURRING, R.string.recurring_title, Icons.Filled.Repeat),
     MoreItem(SecondaryRoutes.CAPTURE_REVIEW, R.string.capture_review_title, Icons.Filled.Inbox),

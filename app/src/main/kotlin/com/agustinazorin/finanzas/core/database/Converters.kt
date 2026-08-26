@@ -9,6 +9,7 @@ import com.agustinazorin.finanzas.engine.model.InstallmentStatus
 import com.agustinazorin.finanzas.engine.model.LiabilityType
 import com.agustinazorin.finanzas.engine.model.MemberType
 import com.agustinazorin.finanzas.engine.model.Periodicity
+import com.agustinazorin.finanzas.engine.model.RateSource
 import com.agustinazorin.finanzas.engine.model.RecurringType
 import com.agustinazorin.finanzas.engine.model.TransactionDirection
 import com.agustinazorin.finanzas.engine.model.TransactionSource
@@ -114,4 +115,10 @@ class Converters {
 
     @TypeConverter
     fun toLiabilityType(value: String?): LiabilityType? = value?.let(LiabilityType::valueOf)
+
+    @TypeConverter
+    fun fromRateSource(value: RateSource?): String? = value?.name
+
+    @TypeConverter
+    fun toRateSource(value: String?): RateSource? = value?.let(RateSource::valueOf)
 }

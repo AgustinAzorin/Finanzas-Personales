@@ -2,6 +2,9 @@ package com.agustinazorin.finanzas.feature.patrimonio.ui
 
 import androidx.lifecycle.viewModelScope
 import com.agustinazorin.finanzas.core.ui.HouseholdScopedViewModel
+import com.agustinazorin.finanzas.engine.currency.CurrencyConversionResult
+import com.agustinazorin.finanzas.engine.inflation.InflationAdjuster
+import com.agustinazorin.finanzas.engine.inflation.MonthlyInflationRate
 import com.agustinazorin.finanzas.engine.model.AccountType
 import com.agustinazorin.finanzas.engine.model.AssetCategory
 import com.agustinazorin.finanzas.engine.model.LiabilityType
@@ -10,6 +13,8 @@ import com.agustinazorin.finanzas.feature.account.domain.AccountRepository
 import com.agustinazorin.finanzas.feature.account.domain.usecase.GetAccountBalancesUseCase
 import com.agustinazorin.finanzas.feature.account.domain.usecase.GetNetWorthUseCase
 import com.agustinazorin.finanzas.feature.account.domain.usecase.inCurrency
+import com.agustinazorin.finanzas.feature.currency.domain.InflationRateRepository
+import com.agustinazorin.finanzas.feature.currency.domain.usecase.ConvertToBaseCurrencyUseCase
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMember
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberRepository
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
@@ -27,6 +32,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -36,6 +42,13 @@ private const val BASE_CURRENCY = "ARS"
 private val LIABILITY_ACCOUNT_TYPES = setOf(AccountType.CREDIT_CARD, AccountType.LOAN, AccountType.OTHER_LIABILITY)
 
 data class PatrimonioBreakdownItem(val label: String, val amount: Money)
+
+/**
+ * Un snapshot histórico junto a su equivalente ajustado por inflación a hoy (CLAUDE.md, sección
+ * 42). [adjustedToToday] es null cuando falta algún mes de inflación entre el snapshot y hoy: en
+ * ese caso no se inventa un valor aproximado, se muestra sólo el nominal.
+ */
+data class SnapshotEvolutionItem(val snapshot: FinancialSnapshot, val adjustedToToday: Money?)
 
 data class PatrimonioUiState(
     val netWorth: Money = Money.zero(BASE_CURRENCY),
@@ -60,9 +73,11 @@ class PatrimonioViewModel @Inject constructor(
     private val assetRepository: AssetRepository,
     private val liabilityRepository: LiabilityRepository,
     private val financialSnapshotRepository: FinancialSnapshotRepository,
+    private val inflationRateRepository: InflationRateRepository,
     private val getAccountBalancesUseCase: GetAccountBalancesUseCase,
     private val getNetWorthUseCase: GetNetWorthUseCase,
     private val recordSnapshotIfNeededUseCase: RecordSnapshotIfNeededUseCase,
+    private val convertToBaseCurrencyUseCase: ConvertToBaseCurrencyUseCase,
 ) : HouseholdScopedViewModel(householdRepository) {
 
     val uiState: StateFlow<PatrimonioUiState> = householdId.filterNotNull().flatMapLatest { id ->
@@ -103,9 +118,38 @@ class PatrimonioViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PatrimonioUiState())
 
-    val evolution: StateFlow<List<FinancialSnapshot>> = householdId.filterNotNull().flatMapLatest { id ->
-        financialSnapshotRepository.observeHistory(id, BASE_CURRENCY)
+    val evolution: StateFlow<List<SnapshotEvolutionItem>> = householdId.filterNotNull().flatMapLatest { id ->
+        combine(
+            financialSnapshotRepository.observeHistory(id, BASE_CURRENCY),
+            inflationRateRepository.observeAll(),
+        ) { snapshots, inflationRates ->
+            val today = LocalDate.now()
+            val monthlyRates = inflationRates.map { MonthlyInflationRate(it.month, it.percent) }
+            snapshots.map { snapshot ->
+                val adjusted = runCatching {
+                    InflationAdjuster.adjust(Money(snapshot.netWorth, snapshot.currency), snapshot.date, today, monthlyRates)
+                }.getOrNull()
+                SnapshotEvolutionItem(snapshot, adjusted)
+            }
+        }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    /**
+     * Patrimonio total convertido a [BASE_CURRENCY] (CLAUDE.md, sección 41): además del
+     * desglose ARS-only de [uiState] (sin cambios, para no arriesgar esa lógica ya probada de
+     * Fase 5), esto suma lo que haya en otras monedas (ej: cuentas o activos en USD) usando la
+     * última cotización cargada. Es `null` cuando todo ya está en [BASE_CURRENCY] (no hay nada
+     * que convertir, no tiene sentido mostrar la tarjeta).
+     */
+    val convertedNetWorth: StateFlow<CurrencyConversionResult?> = householdId.filterNotNull().flatMapLatest { id ->
+        getNetWorthUseCase(id, LocalDate.now()).flatMapLatest { byCurrency ->
+            if (byCurrency.keys.all { it == BASE_CURRENCY }) {
+                flowOf(null)
+            } else {
+                convertToBaseCurrencyUseCase(byCurrency, BASE_CURRENCY)
+            }
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     val members: StateFlow<List<HouseholdMember>> = householdId.filterNotNull().flatMapLatest { id ->
         householdMemberRepository.observeActiveMembers(id)
