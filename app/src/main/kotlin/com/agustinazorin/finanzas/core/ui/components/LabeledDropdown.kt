@@ -23,7 +23,7 @@ fun <T> LabeledDropdown(
     label: String,
     options: List<T>,
     selected: T?,
-    optionLabel: (T) -> String,
+    optionLabel: @Composable (T) -> String,
     onSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -31,7 +31,7 @@ fun <T> LabeledDropdown(
 
     ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }, modifier = modifier) {
         OutlinedTextField(
-            value = selected?.let(optionLabel) ?: "",
+            value = selected?.let { optionLabel(it) } ?: "",
             onValueChange = {},
             readOnly = true,
             label = { Text(label) },
