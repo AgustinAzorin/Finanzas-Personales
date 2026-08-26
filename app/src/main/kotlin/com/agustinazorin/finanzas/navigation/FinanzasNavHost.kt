@@ -22,14 +22,21 @@ import androidx.navigation.navArgument
 import com.agustinazorin.finanzas.feature.account.ui.AccountsScreen
 import com.agustinazorin.finanzas.feature.capture.ui.CaptureReviewScreen
 import com.agustinazorin.finanzas.feature.capture.ui.CaptureSettingsScreen
+import com.agustinazorin.finanzas.feature.cashflow.ui.CashFlowScreen
+import com.agustinazorin.finanzas.feature.cashflow.ui.CommittedScreen
 import com.agustinazorin.finanzas.feature.category.ui.CategoriesScreen
 import com.agustinazorin.finanzas.feature.category.ui.CategoryRulesScreen
 import com.agustinazorin.finanzas.feature.creditcard.ui.CreditCardDetailScreen
+import com.agustinazorin.finanzas.feature.currency.ui.CurrencyScreen
 import com.agustinazorin.finanzas.feature.home.ui.HomeScreen
 import com.agustinazorin.finanzas.feature.household.ui.HouseholdMembersScreen
+import com.agustinazorin.finanzas.feature.household.ui.HouseholdReportScreen
 import com.agustinazorin.finanzas.feature.income.ui.IncomeScreen
 import com.agustinazorin.finanzas.feature.more.ui.MoreScreen
+import com.agustinazorin.finanzas.feature.patrimonio.ui.PatrimonioScreen
+import com.agustinazorin.finanzas.feature.receipt.ui.ReceiptsScreen
 import com.agustinazorin.finanzas.feature.recurring.ui.RecurringScreen
+import com.agustinazorin.finanzas.feature.security.ui.SecurityScreen
 import com.agustinazorin.finanzas.feature.summary.ui.SummaryScreen
 import com.agustinazorin.finanzas.feature.transaction.ui.QuickAddScreen
 import com.agustinazorin.finanzas.feature.transaction.ui.TransactionsScreen
@@ -84,6 +91,13 @@ fun FinanzasNavHost() {
             composable(SecondaryRoutes.QUICK_ADD) { QuickAddScreen(onDone = { navController.popBackStack() }) }
             composable(SecondaryRoutes.CATEGORIES) { CategoriesScreen() }
             composable(SecondaryRoutes.HOUSEHOLD_MEMBERS) { HouseholdMembersScreen() }
+            composable(SecondaryRoutes.HOUSEHOLD_REPORT) { HouseholdReportScreen() }
+            composable(SecondaryRoutes.COMMITTED) { CommittedScreen() }
+            composable(SecondaryRoutes.CASH_FLOW) { CashFlowScreen() }
+            composable(SecondaryRoutes.PATRIMONIO) { PatrimonioScreen() }
+            composable(SecondaryRoutes.CURRENCY) { CurrencyScreen() }
+            composable(SecondaryRoutes.RECEIPTS) { ReceiptsScreen() }
+            composable(SecondaryRoutes.SECURITY) { SecurityScreen() }
             composable(SecondaryRoutes.INCOME) { IncomeScreen() }
             composable(SecondaryRoutes.RECURRING) { RecurringScreen() }
             composable(SecondaryRoutes.CAPTURE_SETTINGS) { CaptureSettingsScreen() }

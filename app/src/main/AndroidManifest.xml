@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Único uso permitido de red (CLAUDE.md, sección 2): APIs públicas de solo lectura para
+         cotizaciones e inflación, siempre por acción explícita del usuario ("Actualizar"). La
+         app entera sigue funcionando en modo avión sin este permiso siendo ejercido. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- allowBackup="false" a propósito (CLAUDE.md, sección 44): Android Auto Backup restauraría
+         el archivo cifrado de EncryptedSharedPreferences en un dispositivo nuevo, pero la clave de
+         Android Keystore que lo protege nunca sale del dispositivo original — la app quedaría con
+         una passphrase de base de datos indescifrable. La recuperación real pasa exclusivamente
+         por el backup cifrado con contraseña propio de la app (pantalla "Seguridad"). -->
     <application
         android:name=".FinanzasApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
@@ -32,6 +42,19 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!-- Comprobantes (CLAUDE.md, sección 40): entrega un Uri de contenido temporal a la app
+             de cámara del sistema para que escriba la foto ahí, sin exponer rutas de archivo
+             reales ni usar almacenamiento externo (sección 45). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

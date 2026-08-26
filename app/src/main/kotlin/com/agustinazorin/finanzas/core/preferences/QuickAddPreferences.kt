@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 private const val PREFS_NAME = "quick_add_prefs"
 private const val KEY_LAST_ACCOUNT_ID = "last_account_id"
+private const val KEY_LAST_MEMBER_ID = "last_member_id"
 
 /**
  * Recuerda la última cuenta usada en la Alta rápida (CLAUDE.md, sección 28), puramente local.
@@ -23,4 +24,9 @@ class QuickAddPreferences @Inject constructor(
     var lastAccountId: Long?
         get() = prefs.getLong(KEY_LAST_ACCOUNT_ID, -1).takeIf { it != -1L }
         set(value) = prefs.edit { if (value == null) remove(KEY_LAST_ACCOUNT_ID) else putLong(KEY_LAST_ACCOUNT_ID, value) }
+
+    /** Último "Responsable" (CLAUDE.md, sección 30) usado; null = sin asignar a una persona. */
+    var lastMemberId: Long?
+        get() = prefs.getLong(KEY_LAST_MEMBER_ID, -1).takeIf { it != -1L }
+        set(value) = prefs.edit { if (value == null) remove(KEY_LAST_MEMBER_ID) else putLong(KEY_LAST_MEMBER_ID, value) }
 }

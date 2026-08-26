@@ -44,6 +44,13 @@ interface InstallmentDao {
     )
     fun observeAllUpTo(householdId: Long, asOf: LocalDate): Flow<List<InstallmentWithType>>
 
+    /** Cuotas pendientes de todas las tarjetas del hogar, para proyectar el flujo de caja (CLAUDE.md, sección 36). */
+    @Query(
+        "SELECT i.*, t.type as type, t.currency as currency FROM installments i JOIN transactions t ON t.id = i.transactionId " +
+            "WHERE t.householdId = :householdId AND i.status = 'PENDING' ORDER BY i.dueDate",
+    )
+    fun observeUpcomingForHousehold(householdId: Long): Flow<List<InstallmentWithType>>
+
     @Query(
         "UPDATE installments SET status = 'PAID' WHERE status = 'PENDING' AND accountingDate = :closingDate " +
             "AND transactionId IN (SELECT id FROM transactions WHERE accountId = :creditCardAccountId)",

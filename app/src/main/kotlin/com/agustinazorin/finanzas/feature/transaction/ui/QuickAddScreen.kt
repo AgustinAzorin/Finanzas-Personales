@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -39,6 +40,7 @@ import com.agustinazorin.finanzas.core.ui.format.parseMoneyInput
 import com.agustinazorin.finanzas.engine.model.TransactionType
 import com.agustinazorin.finanzas.feature.account.domain.Account
 import com.agustinazorin.finanzas.feature.category.domain.Category
+import com.agustinazorin.finanzas.feature.household.domain.HouseholdMember
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,6 +64,9 @@ fun QuickAddScreen(onDone: () -> Unit, viewModel: QuickAddViewModel = hiltViewMo
     var showDetails by remember { mutableStateOf(false) }
     var merchant by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
+    var payerId by remember(options.defaultMemberId) { mutableStateOf(options.defaultMemberId) }
+    var showShareWith by remember { mutableStateOf(false) }
+    var sharedMemberIds by remember { mutableStateOf<Set<Long>>(emptySet()) }
 
     val account = options.accounts.firstOrNull { it.id == accountId }
 
@@ -137,6 +142,44 @@ fun QuickAddScreen(onDone: () -> Unit, viewModel: QuickAddViewModel = hiltViewMo
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
+            if (options.members.isNotEmpty()) {
+                item {
+                    val payerOptions: List<HouseholdMember?> = listOf(null) + options.members
+                    LabeledDropdown(
+                        label = stringResource(R.string.quick_add_payer),
+                        options = payerOptions,
+                        selected = options.members.firstOrNull { it.id == payerId },
+                        optionLabel = { it?.name ?: stringResource(R.string.quick_add_payer_unassigned) },
+                        onSelected = { payerId = it?.id },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+            if (type == TransactionType.EXPENSE && options.members.size >= 2) {
+                item {
+                    TextButton(onClick = { showShareWith = !showShareWith }) {
+                        Text(stringResource(R.string.quick_add_share_toggle))
+                    }
+                }
+                if (showShareWith) {
+                    item {
+                        Text(stringResource(R.string.quick_add_share_members), style = MaterialTheme.typography.bodySmall)
+                    }
+                    item {
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            items(options.members, key = { it.id }) { member ->
+                                FilterChip(
+                                    selected = member.id in sharedMemberIds,
+                                    onClick = {
+                                        sharedMemberIds = if (member.id in sharedMemberIds) sharedMemberIds - member.id else sharedMemberIds + member.id
+                                    },
+                                    label = { Text(member.name) },
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         item {
@@ -183,8 +226,11 @@ fun QuickAddScreen(onDone: () -> Unit, viewModel: QuickAddViewModel = hiltViewMo
                     val fromId = accountId ?: return@Button
                     val amountValue = amount ?: return@Button
                     when (type) {
-                        TransactionType.EXPENSE -> viewModel.saveExpense(fromId, amountValue, account?.currency ?: "ARS", category?.id, merchant.ifBlank { null }, note.ifBlank { null })
-                        TransactionType.INCOME -> viewModel.saveIncome(fromId, amountValue, account?.currency ?: "ARS", category?.id, merchant.ifBlank { null }, note.ifBlank { null })
+                        TransactionType.EXPENSE -> viewModel.saveExpense(
+                            fromId, amountValue, account?.currency ?: "ARS", category?.id, merchant.ifBlank { null }, note.ifBlank { null },
+                            ownerMemberId = payerId, sharedWithMemberIds = sharedMemberIds.toList(),
+                        )
+                        TransactionType.INCOME -> viewModel.saveIncome(fromId, amountValue, account?.currency ?: "ARS", category?.id, merchant.ifBlank { null }, note.ifBlank { null }, ownerMemberId = payerId)
                         TransactionType.TRANSFER -> {
                             val toId = toAccountId ?: return@Button
                             viewModel.saveTransfer(fromId, toId, amountValue, note.ifBlank { null })

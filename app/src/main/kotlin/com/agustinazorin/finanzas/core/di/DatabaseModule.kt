@@ -7,26 +7,35 @@ import com.agustinazorin.finanzas.core.database.APP_MIGRATIONS
 import com.agustinazorin.finanzas.core.database.AppDatabase
 import com.agustinazorin.finanzas.core.database.DATABASE_NAME
 import com.agustinazorin.finanzas.core.database.dao.AccountDao
+import com.agustinazorin.finanzas.core.database.dao.AssetDao
 import com.agustinazorin.finanzas.core.database.dao.CapturedNotificationDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryDao
 import com.agustinazorin.finanzas.core.database.dao.CategoryRuleDao
 import com.agustinazorin.finanzas.core.database.dao.CreditCardDao
 import com.agustinazorin.finanzas.core.database.dao.CreditCardStatementDao
+import com.agustinazorin.finanzas.core.database.dao.ExchangeRateDao
+import com.agustinazorin.finanzas.core.database.dao.FinancialSnapshotDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdDao
 import com.agustinazorin.finanzas.core.database.dao.HouseholdMemberDao
+import com.agustinazorin.finanzas.core.database.dao.InflationRateDao
 import com.agustinazorin.finanzas.core.database.dao.InstallmentDao
+import com.agustinazorin.finanzas.core.database.dao.LiabilityDao
+import com.agustinazorin.finanzas.core.database.dao.ReceiptDao
 import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
+import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
 import com.agustinazorin.finanzas.core.database.seedDefaultCategories
+import com.agustinazorin.finanzas.core.security.DatabasePassphraseProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Provider
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import net.sqlcipher.database.SupportFactory
 
 /**
  * Puebla la base de datos recién creada con el árbol de categorías estándar (CLAUDE.md,
@@ -61,11 +70,19 @@ object DatabaseModule {
         @ApplicationContext context: Context,
         databaseProvider: Provider<AppDatabase>,
         @ApplicationScope applicationScope: CoroutineScope,
-    ): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+        passphraseProvider: DatabasePassphraseProvider,
+    ): AppDatabase {
+        // SQLCipher cifra `finanzas.db` en reposo (CLAUDE.md, sección 43) con una passphrase
+        // generada localmente y protegida por Android Keystore (ver DatabasePassphraseProvider),
+        // nunca hardcodeada. `net.sqlcipher.database.SQLiteDatabase.loadLibs` ya corrió en
+        // FinanzasApplication.onCreate antes de que este Provider pueda ser invocado.
+        val passphrase = passphraseProvider.getOrCreatePassphrase()
+        return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+            .openHelperFactory(SupportFactory(passphrase))
             .addMigrations(*APP_MIGRATIONS)
             .addCallback(SeedDatabaseCallback(databaseProvider, applicationScope))
             .build()
+    }
 
     @Provides
     fun provideHouseholdDao(db: AppDatabase): HouseholdDao = db.householdDao()
@@ -81,6 +98,9 @@ object DatabaseModule {
 
     @Provides
     fun provideTransactionDao(db: AppDatabase): TransactionDao = db.transactionDao()
+
+    @Provides
+    fun provideTransactionBeneficiaryDao(db: AppDatabase): TransactionBeneficiaryDao = db.transactionBeneficiaryDao()
 
     @Provides
     fun provideRecurringTransactionDao(db: AppDatabase): RecurringTransactionDao = db.recurringTransactionDao()
@@ -99,4 +119,22 @@ object DatabaseModule {
 
     @Provides
     fun provideInstallmentDao(db: AppDatabase): InstallmentDao = db.installmentDao()
+
+    @Provides
+    fun provideAssetDao(db: AppDatabase): AssetDao = db.assetDao()
+
+    @Provides
+    fun provideLiabilityDao(db: AppDatabase): LiabilityDao = db.liabilityDao()
+
+    @Provides
+    fun provideFinancialSnapshotDao(db: AppDatabase): FinancialSnapshotDao = db.financialSnapshotDao()
+
+    @Provides
+    fun provideExchangeRateDao(db: AppDatabase): ExchangeRateDao = db.exchangeRateDao()
+
+    @Provides
+    fun provideInflationRateDao(db: AppDatabase): InflationRateDao = db.inflationRateDao()
+
+    @Provides
+    fun provideReceiptDao(db: AppDatabase): ReceiptDao = db.receiptDao()
 }

@@ -4,13 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.agustinazorin.finanzas.core.engine.toEngineTransaction
 import com.agustinazorin.finanzas.core.ui.HouseholdScopedViewModel
 import com.agustinazorin.finanzas.engine.metrics.PeriodSummaryCalculator
-import com.agustinazorin.finanzas.engine.model.AccountType
 import com.agustinazorin.finanzas.engine.model.PeriodSummary
 import com.agustinazorin.finanzas.engine.model.UpcomingCommitment
 import com.agustinazorin.finanzas.engine.money.Money
-import com.agustinazorin.finanzas.feature.account.domain.Account
-import com.agustinazorin.finanzas.feature.account.domain.AccountRepository
-import com.agustinazorin.finanzas.feature.account.domain.usecase.GetAccountBalancesUseCase
+import com.agustinazorin.finanzas.feature.account.domain.usecase.GetAvailableLiquidityUseCase
 import com.agustinazorin.finanzas.feature.account.domain.usecase.GetNetWorthUseCase
 import com.agustinazorin.finanzas.feature.account.domain.usecase.inCurrency
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
@@ -30,10 +27,6 @@ import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
-private val LIQUID_ACCOUNT_TYPES = setOf(
-    AccountType.CASH, AccountType.BANK_ACCOUNT, AccountType.SAVINGS_ACCOUNT,
-    AccountType.MERCADO_PAGO, AccountType.DIGITAL_WALLET,
-)
 private const val BASE_CURRENCY = "ARS"
 private const val COMMITMENT_HORIZON_DAYS = 30L
 private const val RECENT_TRANSACTIONS_LIMIT = 5
@@ -52,10 +45,9 @@ data class HomeUiState(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     householdRepository: HouseholdRepository,
-    private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
-    private val getAccountBalancesUseCase: GetAccountBalancesUseCase,
     private val getNetWorthUseCase: GetNetWorthUseCase,
+    private val getAvailableLiquidityUseCase: GetAvailableLiquidityUseCase,
     private val getUpcomingCommitmentsUseCase: GetUpcomingCommitmentsUseCase,
 ) : HouseholdScopedViewModel(householdRepository) {
 
@@ -66,9 +58,7 @@ class HomeViewModel @Inject constructor(
 
         combine(
             getNetWorthUseCase(id, today),
-            combine(accountRepository.observeActiveAccounts(id), getAccountBalancesUseCase(id, today)) { accounts, balances ->
-                availableAmount(accounts, balances.associateBy { it.accountId }.mapValues { it.value.balance })
-            },
+            getAvailableLiquidityUseCase(id, BASE_CURRENCY, today),
             getUpcomingCommitmentsUseCase(id, today, COMMITMENT_HORIZON_DAYS),
             transactionRepository.observeAllUpTo(id, monthEnd),
             transactionRepository.observeRecent(id, RECENT_TRANSACTIONS_LIMIT),
@@ -94,11 +84,4 @@ class HomeViewModel @Inject constructor(
             )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
-
-    private fun availableAmount(accounts: List<Account>, balances: Map<Long, Money>): Money {
-        val liquidBalances = accounts
-            .filter { it.type in LIQUID_ACCOUNT_TYPES && it.currency == BASE_CURRENCY }
-            .mapNotNull { balances[it.id] }
-        return Money.sum(liquidBalances, BASE_CURRENCY)
-    }
 }

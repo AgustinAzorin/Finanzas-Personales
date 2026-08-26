@@ -33,6 +33,7 @@ import com.agustinazorin.finanzas.engine.model.TransactionDirection
 import com.agustinazorin.finanzas.engine.model.TransactionType
 import com.agustinazorin.finanzas.feature.account.domain.Account
 import com.agustinazorin.finanzas.feature.category.domain.Category
+import com.agustinazorin.finanzas.feature.household.domain.HouseholdMember
 import com.agustinazorin.finanzas.feature.transaction.domain.Transaction
 
 @Composable
@@ -71,6 +72,17 @@ fun TransactionsScreen(viewModel: TransactionsViewModel = hiltViewModel()) {
                 onSelected = { viewModel.setCategoryFilter(it?.id) },
                 modifier = Modifier.width(160.dp),
             )
+            if (state.members.isNotEmpty()) {
+                val memberOptions: List<HouseholdMember?> = listOf(null) + state.members
+                LabeledDropdown(
+                    label = stringResource(R.string.transactions_filter_member),
+                    options = memberOptions,
+                    selected = state.members.firstOrNull { it.id == state.filter.memberId },
+                    optionLabel = { it?.name ?: stringResource(R.string.common_all) },
+                    onSelected = { viewModel.setMemberFilter(it?.id) },
+                    modifier = Modifier.width(160.dp),
+                )
+            }
         }
 
         if (state.transactions.isEmpty()) {

@@ -1,5 +1,8 @@
 package com.agustinazorin.finanzas.engine.money
 
+import java.math.BigDecimal
+import java.math.RoundingMode
+
 /**
  * Monto monetario expresado en unidades mínimas de la moneda (ej: centavos).
  * Nunca usar Float/Double para dinero (ver CLAUDE.md, sección 6).
@@ -34,6 +37,20 @@ data class Money(val minorUnits: Long, val currency: String) : Comparable<Money>
             "No se pueden combinar montos de distinta moneda ($currency vs ${other.currency}) " +
                 "sin pasar por una conversión explícita."
         }
+    }
+
+    /**
+     * Convierte este monto a [toCurrency] usando [rate] (unidades de [toCurrency] por 1 unidad
+     * de [currency]). Es la única forma de pasar dinero de una moneda a otra: nunca implícita,
+     * siempre con una tasa explícita (CLAUDE.md, sección 41 — "las conversiones son una capa de
+     * presentación/análisis", nunca sobrescriben el monto nominal original guardado aparte).
+     */
+    fun convert(rate: BigDecimal, toCurrency: String): Money {
+        require(rate.signum() > 0) { "La tasa de conversión debe ser positiva ($rate)." }
+        val convertedMinorUnits = BigDecimal(minorUnits).multiply(rate)
+            .setScale(0, RoundingMode.HALF_UP)
+            .longValueExact()
+        return Money(convertedMinorUnits, toCurrency)
     }
 
     companion object {

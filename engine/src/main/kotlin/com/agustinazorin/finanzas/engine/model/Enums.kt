@@ -70,3 +70,36 @@ enum class InstallmentStatus { PENDING, PAID, CANCELLED }
 
 /** Estado de un resumen de tarjeta de crédito (CLAUDE.md, sección 18). */
 enum class CreditCardStatementStatus { OPEN, CLOSED, PARTIALLY_PAID, PAID }
+
+/**
+ * Categoría de un [com.agustinazorin.finanzas.engine.model.EngineAsset] (CLAUDE.md, sección 10):
+ * un activo cuyo valor no corresponde a una cuenta corriente (Account). No incluye efectivo o
+ * inversiones ya modeladas como Account (CASH, INVESTMENT): esta categoría CASH es para dinero
+ * físico fuera de cualquier cuenta/billetera (ej. dólares guardados en casa).
+ */
+enum class AssetCategory { CASH, VEHICLE, REAL_ESTATE, INVESTMENT, OTHER }
+
+/**
+ * Tipo de una Liability independiente de una cuenta (CLAUDE.md, sección 11). No incluye deuda de
+ * tarjeta ni cuotas futuras: esas ya se modelan vía Account(CREDIT_CARD)/CreditCardStatement/
+ * Installment (Fase 2). Esta entidad es para obligaciones que no tienen una cuenta propia detrás,
+ * como un préstamo personal o una deuda informal.
+ */
+enum class LiabilityType { LOAN, PERSONAL_DEBT, OTHER }
+
+/**
+ * Origen de una cotización o tasa de inflación guardada (CLAUDE.md, sección 41: siempre hay que
+ * guardar `exchangeRateSource`). MANUAL es la que carga el usuario a mano; API es la traída de
+ * una fuente pública de solo lectura (CLAUDE.md, sección 2) mediante una acción explícita
+ * ("Actualizar"), nunca automática ni obligatoria: la app sigue funcionando en modo avión.
+ */
+enum class RateSource { MANUAL, API }
+
+/**
+ * De dónde salió la información estructurada/textual de un comprobante fotografiado (CLAUDE.md,
+ * sección 40). QR: se pudo leer y parsear el QR AFIP/ARCA del comprobante (la fuente más
+ * confiable, nunca se ignora si está presente). OCR: no había QR reconocible, se extrajo texto
+ * por reconocimiento óptico como respaldo. MANUAL: no se pudo extraer nada automáticamente, sólo
+ * queda la foto guardada para referencia del usuario.
+ */
+enum class ReceiptSource { QR, OCR, MANUAL }

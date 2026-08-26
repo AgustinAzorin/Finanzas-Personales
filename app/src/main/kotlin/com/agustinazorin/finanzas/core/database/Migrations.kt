@@ -7,7 +7,7 @@ import androidx.room.migration.Migration
  * prohibido (CLAUDE.md, sección "Estrategia de migraciones"): cada cambio de schema agrega acá
  * una [Migration] explícita, con su propio test usando `MigrationTestHelper`.
  *
- * La versión 1 es el schema inicial (Fase 0, 1 y 2, ver comentario en [AppDatabase]): todavía no
+ * La versión 1 es el schema inicial (Fase 0, 1, 2 y 3, ver comentario en [AppDatabase]): todavía no
  * salió de este repositorio a un dispositivo real, así que no requiere migración. La primera vez
  * que se bumpee la versión, agregar acá la [Migration] correspondiente.
  */

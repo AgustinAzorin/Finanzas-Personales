@@ -17,6 +17,9 @@ Si estás retomando este proyecto en una sesión con esa misma limitación, no l
 de que el código de `:app` está roto: verificalo con una revisión manual cuidadosa (como se hizo
 al escribir la Fase 0) y dejale al usuario la validación de build real.
 
+Los pasos para esa validación real (fuera de este sandbox, en una máquina o CI con acceso normal
+a `google()`/Maven Central) están en [`BUILD.md`](./BUILD.md).
+
 ## 1. Contexto del proyecto
 
 Estamos construyendo una aplicación Android de finanzas personales y del hogar, orientada inicialmente a Argentina.
@@ -666,15 +669,21 @@ Nunca introducir una dependencia online simplemente porque sea más cómoda.
 
 Trabajar una fase por sesión, en orden. Antes de implementar una fase, revisar el modelo y las decisiones de arquitectura necesarias. Si aparece una contradicción con decisiones anteriores, detenerse y explicarla antes de modificar datos existentes.
 
-- **Fase 0**: MVP — cuentas, categorías, miembros del hogar, transacciones (gastos/ingresos/transferencias), recurrentes, resumen financiero básico. Antes de escribir código, proponer modelo Room, relaciones, enums, estructura de paquetes, Financial Engine, repositories, use cases, estrategia de migraciones y estrategia de testing, y esperar aprobación.
-- **Fase 1**: Captura automática vía `NotificationListenerService`, parsers desacoplados, conciliación, categorización automática.
-- **Fase 2**: Tarjetas y cuotas — `CreditCard`, `CreditCardStatement`, `Installment`, ciclos de cierre, vencimientos, pago de resumen.
-- **Fase 3**: Finanzas del hogar — miembros, gastos compartidos, atribución, reportes personales y del hogar.
-- **Fase 4**: Cash Flow y planificación — compromisos, proyección 7/30/60/90 días, alertas de liquidez, calendario financiero.
-- **Fase 5**: Patrimonio — activos, pasivos, patrimonio neto, snapshots, evolución histórica.
-- **Fase 6**: Multi-moneda e inflación — ARS/USD, cotizaciones, historial, conversión para reportes, comparación nominal/real.
-- **Fase 7**: Comprobantes — cámara, almacenamiento local, QR AFIP/ARCA, OCR fallback.
-- **Fase 8**: Seguridad y recuperación — SQLCipher, Android Keystore, BiometricPrompt, bloqueo automático, export/import cifrado, recuperación completa.
+Las 9 fases (Fase 0 a Fase 8) ya tienen código escrito. Eso NO equivale a "terminado" en el
+sentido de la Definition of Done: por la limitación de sandbox descripta en la sección 0, todo
+`:app` se validó con revisión manual, no con una compilación real. La primera pasada de
+`./gradlew test && ./gradlew assembleDebug` en una máquina real (ver [`BUILD.md`](./BUILD.md)) es
+el paso que falta para cerrar el roadmap de verdad.
+
+- **Fase 0** (implementada): MVP — cuentas, categorías, miembros del hogar, transacciones (gastos/ingresos/transferencias), recurrentes, resumen financiero básico. Antes de escribir código, proponer modelo Room, relaciones, enums, estructura de paquetes, Financial Engine, repositories, use cases, estrategia de migraciones y estrategia de testing, y esperar aprobación.
+- **Fase 1** (implementada): Captura automática vía `NotificationListenerService`, parsers desacoplados, conciliación, categorización automática.
+- **Fase 2** (implementada): Tarjetas y cuotas — `CreditCard`, `CreditCardStatement`, `Installment`, ciclos de cierre, vencimientos, pago de resumen.
+- **Fase 3** (implementada): Finanzas del hogar — miembros, gastos compartidos, atribución, reportes personales y del hogar.
+- **Fase 4** (implementada): Cash Flow y planificación — compromisos, proyección 7/30/60/90 días, alertas de liquidez, calendario financiero.
+- **Fase 5** (implementada): Patrimonio — activos, pasivos, patrimonio neto, snapshots, evolución histórica.
+- **Fase 6** (implementada): Multi-moneda e inflación — ARS/USD, cotizaciones, historial, conversión para reportes, comparación nominal/real.
+- **Fase 7** (implementada): Comprobantes — cámara, almacenamiento local, QR AFIP/ARCA, OCR fallback.
+- **Fase 8** (implementada): Seguridad y recuperación — SQLCipher, Android Keystore, BiometricPrompt, bloqueo automático, export/import cifrado, recuperación completa.
 
 ## Motor de calidad
 

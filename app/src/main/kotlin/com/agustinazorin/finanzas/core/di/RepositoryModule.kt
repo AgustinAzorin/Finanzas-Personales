@@ -12,12 +12,24 @@ import com.agustinazorin.finanzas.feature.creditcard.data.CreditCardRepositoryIm
 import com.agustinazorin.finanzas.feature.creditcard.data.CreditCardStatementRepositoryImpl
 import com.agustinazorin.finanzas.feature.creditcard.domain.CreditCardRepository
 import com.agustinazorin.finanzas.feature.creditcard.domain.CreditCardStatementRepository
+import com.agustinazorin.finanzas.feature.currency.data.ExchangeRateRepositoryImpl
+import com.agustinazorin.finanzas.feature.currency.data.InflationRateRepositoryImpl
+import com.agustinazorin.finanzas.feature.currency.domain.ExchangeRateRepository
+import com.agustinazorin.finanzas.feature.currency.domain.InflationRateRepository
 import com.agustinazorin.finanzas.feature.household.data.HouseholdMemberRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.data.HouseholdRepositoryImpl
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdMemberRepository
 import com.agustinazorin.finanzas.feature.household.domain.HouseholdRepository
 import com.agustinazorin.finanzas.feature.installment.data.InstallmentRepositoryImpl
 import com.agustinazorin.finanzas.feature.installment.domain.InstallmentRepository
+import com.agustinazorin.finanzas.feature.patrimonio.data.AssetRepositoryImpl
+import com.agustinazorin.finanzas.feature.patrimonio.data.FinancialSnapshotRepositoryImpl
+import com.agustinazorin.finanzas.feature.patrimonio.data.LiabilityRepositoryImpl
+import com.agustinazorin.finanzas.feature.patrimonio.domain.AssetRepository
+import com.agustinazorin.finanzas.feature.patrimonio.domain.FinancialSnapshotRepository
+import com.agustinazorin.finanzas.feature.patrimonio.domain.LiabilityRepository
+import com.agustinazorin.finanzas.feature.receipt.data.ReceiptRepositoryImpl
+import com.agustinazorin.finanzas.feature.receipt.domain.ReceiptRepository
 import com.agustinazorin.finanzas.feature.recurring.data.RecurringTransactionRepositoryImpl
 import com.agustinazorin.finanzas.feature.recurring.domain.RecurringTransactionRepository
 import com.agustinazorin.finanzas.feature.transaction.data.TransactionRepositoryImpl
@@ -75,4 +87,28 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindInstallmentRepository(impl: InstallmentRepositoryImpl): InstallmentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAssetRepository(impl: AssetRepositoryImpl): AssetRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLiabilityRepository(impl: LiabilityRepositoryImpl): LiabilityRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFinancialSnapshotRepository(impl: FinancialSnapshotRepositoryImpl): FinancialSnapshotRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindExchangeRateRepository(impl: ExchangeRateRepositoryImpl): ExchangeRateRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindInflationRateRepository(impl: InflationRateRepositoryImpl): InflationRateRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindReceiptRepository(impl: ReceiptRepositoryImpl): ReceiptRepository
 }

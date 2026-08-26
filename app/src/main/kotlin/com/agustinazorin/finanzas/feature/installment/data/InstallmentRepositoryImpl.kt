@@ -24,6 +24,9 @@ class InstallmentRepositoryImpl @Inject constructor(
     override fun observeAllUpTo(householdId: Long, asOf: LocalDate): Flow<List<InstallmentForSummary>> =
         dao.observeAllUpTo(householdId, asOf).map { list -> list.map { it.toDomain() } }
 
+    override fun observeUpcomingForHousehold(householdId: Long): Flow<List<InstallmentForSummary>> =
+        dao.observeUpcomingForHousehold(householdId).map { list -> list.map { it.toDomain() } }
+
     override suspend fun createInstallments(installments: List<Installment>) {
         dao.insertAll(installments.map { it.toEntity() })
     }

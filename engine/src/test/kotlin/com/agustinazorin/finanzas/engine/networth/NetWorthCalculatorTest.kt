@@ -2,6 +2,8 @@ package com.agustinazorin.finanzas.engine.networth
 
 import com.agustinazorin.finanzas.engine.model.AccountType
 import com.agustinazorin.finanzas.engine.model.EngineAccount
+import com.agustinazorin.finanzas.engine.model.EngineAsset
+import com.agustinazorin.finanzas.engine.model.EngineLiability
 import com.agustinazorin.finanzas.engine.model.EngineTransaction
 import com.agustinazorin.finanzas.engine.model.TransactionDirection
 import com.agustinazorin.finanzas.engine.model.TransactionStatus
@@ -88,5 +90,52 @@ class NetWorthCalculatorTest {
 
         assertEquals(Money(100_000, "ARS"), netWorth["ARS"])
         assertEquals(Money(1_200, "USD"), netWorth["USD"])
+    }
+
+    @Test
+    fun `los activos independientes suman al patrimonio`() {
+        val bank = account(1, AccountType.BANK_ACCOUNT, 500_000)
+        val car = EngineAsset(id = 1, currentValue = Money(2_000_000, "ARS"), valuationDate = jan1, isActive = true)
+
+        val netWorth = NetWorthCalculator.netWorthByCurrency(
+            accounts = listOf(bank),
+            transactions = emptyList(),
+            asOf = jan1.plusDays(1),
+            assets = listOf(car),
+        )
+
+        assertEquals(Money(2_500_000, "ARS"), netWorth["ARS"])
+    }
+
+    @Test
+    fun `los pasivos independientes restan del patrimonio`() {
+        val bank = account(1, AccountType.BANK_ACCOUNT, 500_000)
+        val loan = EngineLiability(id = 1, outstandingAmount = Money(150_000, "ARS"), isActive = true)
+
+        val netWorth = NetWorthCalculator.netWorthByCurrency(
+            accounts = listOf(bank),
+            transactions = emptyList(),
+            asOf = jan1.plusDays(1),
+            liabilities = listOf(loan),
+        )
+
+        assertEquals(Money(350_000, "ARS"), netWorth["ARS"])
+    }
+
+    @Test
+    fun `activos y pasivos independientes inactivos no entran en el patrimonio`() {
+        val bank = account(1, AccountType.BANK_ACCOUNT, 500_000)
+        val inactiveAsset = EngineAsset(id = 1, currentValue = Money(2_000_000, "ARS"), valuationDate = jan1, isActive = false)
+        val inactiveLiability = EngineLiability(id = 1, outstandingAmount = Money(150_000, "ARS"), isActive = false)
+
+        val netWorth = NetWorthCalculator.netWorthByCurrency(
+            accounts = listOf(bank),
+            transactions = emptyList(),
+            asOf = jan1.plusDays(1),
+            assets = listOf(inactiveAsset),
+            liabilities = listOf(inactiveLiability),
+        )
+
+        assertEquals(Money(500_000, "ARS"), netWorth["ARS"])
     }
 }
