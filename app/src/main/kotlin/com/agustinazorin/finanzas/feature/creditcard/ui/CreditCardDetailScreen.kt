@@ -300,7 +300,7 @@ private fun PayStatementDialog(
                     label = stringResource(R.string.credit_card_pay_from),
                     options = payFromAccounts,
                     selected = fromAccount,
-                    optionLabel = Account::name,
+                    optionLabel = { it.name },
                     onSelected = { fromAccount = it },
                     modifier = Modifier.fillMaxWidth(),
                 )

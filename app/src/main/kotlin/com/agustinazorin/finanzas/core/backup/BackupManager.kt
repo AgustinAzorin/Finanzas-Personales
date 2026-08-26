@@ -115,8 +115,11 @@ class BackupManager @Inject constructor(
         if (target.exists()) target.delete()
         val currentDbPath = context.getDatabasePath(DATABASE_NAME).absolutePath
         val passphrase = passphraseProvider.getOrCreatePassphrase()
+        // openDatabase sólo tiene overloads de password String/CharArray, no ByteArray: se pasa
+        // la clave cruda con la sintaxis hexadecimal x'...' que SQLCipher reconoce para saltear
+        // la derivación PBKDF2 (misma convención que reencryptImportedDatabase más abajo).
         val encryptedDb = SqlCipherDatabase.openDatabase(
-            currentDbPath, passphrase, null, SqlCipherDatabase.OPEN_READONLY,
+            currentDbPath, passphrase.toSqlCipherHexKey(), null, SqlCipherDatabase.OPEN_READONLY,
         )
         try {
             encryptedDb.execSQL("ATTACH DATABASE '${target.absolutePath}' AS plaintext KEY ''")
@@ -130,7 +133,6 @@ class BackupManager @Inject constructor(
     /** Recipe inversa: vuelve a cifrar una base plana con la passphrase local de este dispositivo. */
     private fun reencryptImportedDatabase(plainDbFile: File, stagingDir: File): File {
         val passphrase = passphraseProvider.getOrCreatePassphrase()
-        val hexKey = passphrase.joinToString("") { "%02x".format(it) }
         val reencryptedFile = File(stagingDir, "database_reencrypted.db")
         if (reencryptedFile.exists()) reencryptedFile.delete()
 
@@ -138,7 +140,7 @@ class BackupManager @Inject constructor(
             plainDbFile.absolutePath, "", null, SqlCipherDatabase.OPEN_READWRITE,
         )
         try {
-            plainDb.execSQL("ATTACH DATABASE '${reencryptedFile.absolutePath}' AS encrypted KEY \"x'$hexKey'\"")
+            plainDb.execSQL("ATTACH DATABASE '${reencryptedFile.absolutePath}' AS encrypted KEY \"${passphrase.toSqlCipherHexKey()}\"")
             plainDb.execSQL("SELECT sqlcipher_export('encrypted')")
             plainDb.execSQL("DETACH DATABASE encrypted")
         } finally {
@@ -196,3 +198,7 @@ class BackupManager @Inject constructor(
         }
     }
 }
+
+/** Formato de clave cruda de SQLCipher (`x'...'`): salta la derivación PBKDF2 de una passphrase de texto. */
+private fun ByteArray.toSqlCipherHexKey(): String =
+    "x'" + joinToString("") { "%02x".format(it) } + "'"

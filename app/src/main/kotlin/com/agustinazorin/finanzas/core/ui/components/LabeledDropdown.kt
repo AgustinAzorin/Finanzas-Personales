@@ -1,5 +1,6 @@
 package com.agustinazorin.finanzas.core.ui.components
 
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -22,7 +23,7 @@ fun <T> LabeledDropdown(
     label: String,
     options: List<T>,
     selected: T?,
-    optionLabel: (T) -> String,
+    optionLabel: @Composable (T) -> String,
     onSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -30,7 +31,7 @@ fun <T> LabeledDropdown(
 
     ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }, modifier = modifier) {
         OutlinedTextField(
-            value = selected?.let(optionLabel) ?: "",
+            value = selected?.let { optionLabel(it) } ?: "",
             onValueChange = {},
             readOnly = true,
             label = { Text(label) },
@@ -38,7 +39,7 @@ fun <T> LabeledDropdown(
             maxLines = 1,
             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
         )
-        androidx.compose.material3.ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             options.forEach { option ->
                 DropdownMenuItem(
                     text = { Text(optionLabel(option), overflow = TextOverflow.Ellipsis) },

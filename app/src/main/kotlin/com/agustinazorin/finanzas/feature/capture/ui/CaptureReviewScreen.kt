@@ -170,7 +170,7 @@ private fun CaptureReviewCard(
                 label = stringResource(R.string.common_account),
                 options = options.accounts,
                 selected = account,
-                optionLabel = Account::name,
+                optionLabel = { it.name },
                 onSelected = { accountId = it.id },
                 modifier = Modifier.fillMaxWidth(),
             )
