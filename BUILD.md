@@ -85,6 +85,13 @@ terminada si alguno falla.
 
 El APK queda en `app/build/outputs/apk/debug/app-debug.apk`.
 
+Los builds de debug (locales y los de `.github/workflows/build.yml`) usan el keystore fijo
+`/debug.keystore` (commiteado a propósito, ver `app/build.gradle.kts`) en vez del generado
+automáticamente por el Android Gradle Plugin. Esto es lo que permite que cada APK nuevo se instale
+**encima** del anterior sin desinstalar — con un keystore efímero por build, cada descarga tendría
+una firma distinta y Android obligaría a borrar la app (y sus datos) antes de poder instalar la
+siguiente versión.
+
 ## 5. Instalar en un dispositivo o emulador
 
 ```bash

@@ -19,3 +19,6 @@ build/
 # Keystores
 *.jks
 *.keystore
+# Excepción: keystore de debug fijo, commiteado a propósito (ver app/build.gradle.kts) para que
+# todos los builds de debug compartan firma y las actualizaciones no requieran desinstalar.
+!/debug.keystore
