@@ -7,7 +7,6 @@ import com.agustinazorin.finanzas.core.diagnostics.CrashDiagnostics
 import com.agustinazorin.finanzas.core.security.AppLockManager
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
-import net.sqlcipher.database.SQLiteDatabase
 
 @HiltAndroidApp
 class FinanzasApplication : Application() {
@@ -37,13 +36,16 @@ class FinanzasApplication : Application() {
         }
 
         try {
-            // SQLCipher (CLAUDE.md, sección 43) necesita cargar sus librerías nativas antes de que
-            // cualquier código abra `finanzas.db` — incluyendo Room a través del SupportFactory que
-            // arma DatabaseModule.
-            SQLiteDatabase.loadLibs(this)
-            CrashDiagnostics.recordStep(this, "Application.onCreate: SQLCipher.loadLibs")
+            // SQLCipher (CLAUDE.md, sección 43) necesita cargar su librería nativa antes de que
+            // cualquier código abra `finanzas.db` — incluyendo Room a través del
+            // SupportOpenHelperFactory que arma DatabaseModule. `net.zetetic:sqlcipher-android`
+            // (no confundir con el `net.zetetic:android-database-sqlcipher` original, discontinuado
+            // en 2023 y sin soporte para tamaño de página de 16 KB) no expone un `loadLibs(context)`
+            // propio: la carga es la estándar de JNI.
+            System.loadLibrary("sqlcipher")
+            CrashDiagnostics.recordStep(this, "Application.onCreate: SQLCipher.loadLibrary")
         } catch (error: Throwable) {
-            CrashDiagnostics.recordCaught(this, "Application.onCreate: SQLCipher.loadLibs", error)
+            CrashDiagnostics.recordCaught(this, "Application.onCreate: SQLCipher.loadLibrary", error)
             throw error
         }
 

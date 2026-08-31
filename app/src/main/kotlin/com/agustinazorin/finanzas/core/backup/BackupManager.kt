@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import net.sqlcipher.database.SQLiteDatabase as SqlCipherDatabase
+import net.zetetic.database.sqlcipher.SQLiteDatabase as SqlCipherDatabase
 import org.json.JSONObject
 
 private const val RECEIPTS_DIR_NAME = "receipts"
