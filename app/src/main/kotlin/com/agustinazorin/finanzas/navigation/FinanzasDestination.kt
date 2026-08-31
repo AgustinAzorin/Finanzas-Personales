@@ -18,7 +18,18 @@ sealed class FinanzasDestination(val route: String, val labelRes: Int, val icon:
     object More : FinanzasDestination("more", R.string.nav_more, Icons.Filled.MoreHoriz)
 
     companion object {
-        val bottomBarDestinations = listOf(Home, Transactions, Accounts, Summary, More)
+        // `by lazy` (no un `val` directo): un `val` acá se inicializa como parte del <clinit> de
+        // esta clase sealed, en el mismo momento en que la JVM está inicializando
+        // `FinanzasDestination` — y esa inicialización todavía no llegó a crear las instancias de
+        // Home/Transactions/etc (cada `object` es una subclase separada, inicializada en su propio
+        // <clinit>, que a su vez requiere que el de esta clase ya haya terminado). La JVM detecta
+        // esa dependencia circular en el mismo hilo y la corta devolviendo instancias sin inicializar,
+        // así que la lista termina con elementos `null` — de ahí el NPE en tiempo de ejecución. `by
+        // lazy` difiere la creación de la lista hasta el primer acceso real, momento en el que el
+        // <clinit> de esta clase ya terminó y las instancias se resuelven bien.
+        val bottomBarDestinations: List<FinanzasDestination> by lazy {
+            listOf(Home, Transactions, Accounts, Summary, More)
+        }
     }
 }
 
