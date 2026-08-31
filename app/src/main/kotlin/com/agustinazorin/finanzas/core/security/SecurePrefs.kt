@@ -3,10 +3,12 @@ package com.agustinazorin.finanzas.core.security
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
+import android.util.Log
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.security.KeyStore
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,13 +18,33 @@ import javax.inject.Singleton
  * Keystore, así que la clave real nunca sale del hardware ni queda escrita en disco.
  */
 @Singleton
-class SecurePrefs @Inject constructor(@ApplicationContext context: Context) {
+class SecurePrefs @Inject constructor(@ApplicationContext private val context: Context) {
 
+    // Esto corre en el arranque de la app (FinanzasApplication -> AppLockManager -> acá), antes de
+    // que se dibuje cualquier pantalla. Android Keystore puede dejar la clave maestra en un estado
+    // irrecuperable (el sistema la invalida tras un cambio de credenciales del dispositivo, un
+    // restore, o corrupción del archivo cifrado) — sin manejar esa falla acá, la app queda en un
+    // loop de crash permanente apenas se abre, sin ninguna forma de recuperarse. Ante esa falla se
+    // borran el archivo y la clave de Keystore, y se reintenta una única vez con una clave nueva.
+    // En una instalación nueva esto no pierde nada; si ya existía una base de datos cifrada con la
+    // passphrase vieja, esa base ya era irrecuperable de todos modos (la clave de Keystore que la
+    // protegía es justamente la que se perdió).
     private val prefs: SharedPreferences by lazy {
-        val masterKey = MasterKey.Builder(context)
+        runCatching { buildEncryptedPrefs() }.getOrElse { error ->
+            Log.w(TAG, "No se pudo abrir SecurePrefs, se regenera la clave", error)
+            context.deleteSharedPreferences(FILE_NAME)
+            runCatching {
+                KeyStore.getInstance("AndroidKeyStore").apply { load(null) }.deleteEntry(MASTER_KEY_ALIAS)
+            }
+            buildEncryptedPrefs()
+        }
+    }
+
+    private fun buildEncryptedPrefs(): SharedPreferences {
+        val masterKey = MasterKey.Builder(context, MASTER_KEY_ALIAS)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
-        EncryptedSharedPreferences.create(
+        return EncryptedSharedPreferences.create(
             context,
             FILE_NAME,
             masterKey,
@@ -46,7 +68,9 @@ class SecurePrefs @Inject constructor(@ApplicationContext context: Context) {
     }
 
     private companion object {
+        const val TAG = "SecurePrefs"
         const val FILE_NAME = "finanzas_secure_prefs"
+        const val MASTER_KEY_ALIAS = "finanzas_secure_prefs_master_key"
         const val KEY_DB_PASSPHRASE = "db_passphrase"
         const val KEY_APP_LOCK_ENABLED = "app_lock_enabled"
     }
