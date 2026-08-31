@@ -312,4 +312,9 @@
     <string name="security_import_error">No pudimos restaurar este backup. Puede que la contraseña sea incorrecta o que el archivo esté dañado.</string>
     <string name="security_restart_now">Reiniciar ahora</string>
     <string name="security_error_title">Ocurrió un problema</string>
+
+    <string name="diagnostics_title">Diagnóstico de arranque</string>
+    <string name="diagnostics_description">La app tuvo un problema para abrir la última vez. Esto es un registro guardado únicamente en tu celular — no se envía a ningún lado a menos que vos elijas compartirlo.</string>
+    <string name="diagnostics_share">Compartir</string>
+    <string name="diagnostics_continue">Continuar</string>
 </resources>

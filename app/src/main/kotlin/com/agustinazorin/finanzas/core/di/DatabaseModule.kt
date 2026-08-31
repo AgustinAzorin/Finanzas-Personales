@@ -25,6 +25,7 @@ import com.agustinazorin.finanzas.core.database.dao.RecurringTransactionDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionBeneficiaryDao
 import com.agustinazorin.finanzas.core.database.dao.TransactionDao
 import com.agustinazorin.finanzas.core.database.seedDefaultCategories
+import com.agustinazorin.finanzas.core.diagnostics.CrashDiagnostics
 import com.agustinazorin.finanzas.core.security.DatabasePassphraseProvider
 import dagger.Module
 import dagger.Provides
@@ -76,12 +77,24 @@ object DatabaseModule {
         // generada localmente y protegida por Android Keystore (ver DatabasePassphraseProvider),
         // nunca hardcodeada. `net.sqlcipher.database.SQLiteDatabase.loadLibs` ya corrió en
         // FinanzasApplication.onCreate antes de que este Provider pueda ser invocado.
-        val passphrase = passphraseProvider.getOrCreatePassphrase()
-        return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-            .openHelperFactory(SupportFactory(passphrase))
-            .addMigrations(*APP_MIGRATIONS)
-            .addCallback(SeedDatabaseCallback(databaseProvider, applicationScope))
-            .build()
+        //
+        // Este Provider se ejecuta la primera vez que algún ViewModel necesita un DAO — no
+        // necesariamente durante Application.onCreate — así que un fallo acá (passphrase, Room,
+        // SQLCipher) queda fuera del rastro que deja FinanzasApplication. Se registra por
+        // separado para que CrashDiagnostics siga siendo útil sin importar en qué paso del
+        // arranque pasó.
+        try {
+            val passphrase = passphraseProvider.getOrCreatePassphrase()
+            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                .openHelperFactory(SupportFactory(passphrase))
+                .addMigrations(*APP_MIGRATIONS)
+                .addCallback(SeedDatabaseCallback(databaseProvider, applicationScope))
+                .build()
+                .also { CrashDiagnostics.recordStep(context, "DatabaseModule: AppDatabase creada") }
+        } catch (error: Throwable) {
+            CrashDiagnostics.recordCaught(context, "DatabaseModule: AppDatabase.build", error)
+            throw error
+        }
     }
 
     @Provides
