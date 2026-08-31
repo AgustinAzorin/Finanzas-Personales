@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,15 +35,20 @@ fun CommittedScreen(viewModel: CommittedViewModel = hiltViewModel()) {
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        item {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+        // Grid no-lazy: COMMITTED_HORIZON_OPTIONS es una lista fija de 4 horizontes (7/30/60/90
+        // días), no hace falta que sea scrolleable. Un LazyVerticalGrid anidado como item() de un
+        // LazyColumn se mide con altura infinita y crashea (ver CheckScrollableContainerConstraints).
+        items(COMMITTED_HORIZON_OPTIONS.chunked(2)) { rowHorizons ->
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                items(COMMITTED_HORIZON_OPTIONS) { horizon ->
-                    HorizonTotalCard(horizon, state.totalsByHorizon[horizon])
+                rowHorizons.forEach { horizon ->
+                    HorizonTotalCard(
+                        horizonDays = horizon,
+                        total = state.totalsByHorizon[horizon],
+                        modifier = Modifier.weight(1f),
+                    )
                 }
             }
         }
@@ -71,8 +73,8 @@ fun CommittedScreen(viewModel: CommittedViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun HorizonTotalCard(horizonDays: Long, total: Money?) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+private fun HorizonTotalCard(horizonDays: Long, total: Money?, modifier: Modifier = Modifier) {
+    Card(modifier = modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(stringResource(R.string.committed_horizon_days, horizonDays), style = MaterialTheme.typography.labelLarge)
             if (total != null) {

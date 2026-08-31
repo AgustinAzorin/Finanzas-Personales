@@ -21,6 +21,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        // Keystore de debug fijo y commiteado (no es sensible: es sólo para builds de debug, no
+        // para publicar en Play Store). Sin esto, cada build de debug en un runner limpio de
+        // GitHub Actions queda firmado con un keystore efímero distinto, y cada APK descargado
+        // requiere desinstalar el anterior para poder instalarse. Con un keystore fijo, todos los
+        // builds de debug (CI y locales) comparten firma y las actualizaciones se instalan
+        // encima, sin perder los datos locales de la app.
+        getByName("debug") {
+            storeFile = rootProject.file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
