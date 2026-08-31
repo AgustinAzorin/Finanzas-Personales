@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import net.sqlcipher.database.SQLiteDatabase as SqlCipherDatabase
+import net.zetetic.database.sqlcipher.SQLiteDatabase as SqlCipherDatabase
 import org.json.JSONObject
 
 private const val RECEIPTS_DIR_NAME = "receipts"
@@ -115,11 +115,13 @@ class BackupManager @Inject constructor(
         if (target.exists()) target.delete()
         val currentDbPath = context.getDatabasePath(DATABASE_NAME).absolutePath
         val passphrase = passphraseProvider.getOrCreatePassphrase()
-        // openDatabase sólo tiene overloads de password String/CharArray, no ByteArray: se pasa
-        // la clave cruda con la sintaxis hexadecimal x'...' que SQLCipher reconoce para saltear
-        // la derivación PBKDF2 (misma convención que reencryptImportedDatabase más abajo).
+        // El overload de openDatabase con password (String) siempre pide un SQLiteDatabaseHook
+        // como último parámetro (null acá, no hace falta ninguno) — no existe una variante de 4
+        // argumentos. Se pasa la clave cruda con la sintaxis hexadecimal x'...' que SQLCipher
+        // reconoce para saltear la derivación PBKDF2 (misma convención que
+        // reencryptImportedDatabase más abajo).
         val encryptedDb = SqlCipherDatabase.openDatabase(
-            currentDbPath, passphrase.toSqlCipherHexKey(), null, SqlCipherDatabase.OPEN_READONLY,
+            currentDbPath, passphrase.toSqlCipherHexKey(), null, SqlCipherDatabase.OPEN_READONLY, null,
         )
         try {
             encryptedDb.execSQL("ATTACH DATABASE '${target.absolutePath}' AS plaintext KEY ''")
@@ -137,7 +139,7 @@ class BackupManager @Inject constructor(
         if (reencryptedFile.exists()) reencryptedFile.delete()
 
         val plainDb = SqlCipherDatabase.openDatabase(
-            plainDbFile.absolutePath, "", null, SqlCipherDatabase.OPEN_READWRITE,
+            plainDbFile.absolutePath, "", null, SqlCipherDatabase.OPEN_READWRITE, null,
         )
         try {
             plainDb.execSQL("ATTACH DATABASE '${reencryptedFile.absolutePath}' AS encrypted KEY \"${passphrase.toSqlCipherHexKey()}\"")

@@ -36,7 +36,7 @@ import javax.inject.Provider
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import net.sqlcipher.database.SupportFactory
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 
 /**
  * Puebla la base de datos recién creada con el árbol de categorías estándar (CLAUDE.md,
@@ -75,8 +75,14 @@ object DatabaseModule {
     ): AppDatabase {
         // SQLCipher cifra `finanzas.db` en reposo (CLAUDE.md, sección 43) con una passphrase
         // generada localmente y protegida por Android Keystore (ver DatabasePassphraseProvider),
-        // nunca hardcodeada. `net.sqlcipher.database.SQLiteDatabase.loadLibs` ya corrió en
+        // nunca hardcodeada. `System.loadLibrary("sqlcipher")` ya corrió en
         // FinanzasApplication.onCreate antes de que este Provider pueda ser invocado.
+        //
+        // Se usa `net.zetetic:sqlcipher-android` (no `net.zetetic:android-database-sqlcipher`: ese
+        // artefacto está discontinuado desde 2023 y su librería nativa no soporta el tamaño de
+        // página de 16 KB que exigen los dispositivos nuevos con Android 15+ — abrir la base con
+        // esa librería vieja crasheaba nativamente, sin excepción de Kotlin que atrapar, en
+        // dispositivos como el que reportó este crash).
         //
         // Este Provider se ejecuta la primera vez que algún ViewModel necesita un DAO — no
         // necesariamente durante Application.onCreate — así que un fallo acá (passphrase, Room,
@@ -86,7 +92,7 @@ object DatabaseModule {
         try {
             val passphrase = passphraseProvider.getOrCreatePassphrase()
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .openHelperFactory(SupportFactory(passphrase))
+                .openHelperFactory(SupportOpenHelperFactory(passphrase))
                 .addMigrations(*APP_MIGRATIONS)
                 .addCallback(SeedDatabaseCallback(databaseProvider, applicationScope))
                 .build()
